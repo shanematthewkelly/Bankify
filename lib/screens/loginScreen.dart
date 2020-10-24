@@ -11,7 +11,8 @@ class _LoginScreenState extends State<LoginScreen> {
   //Key used to check any state changes
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
 
-  String _username, _password;
+  //String variables
+  String username, password;
 
   @override
   Widget build(BuildContext context) {
@@ -69,18 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintStyle: TextStyle(color: Colors.grey[400]),
                               ),
                               //Validation - checks if the field value is empty
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (fieldValue) {
+                                if (fieldValue.isEmpty) {
                                   return 'Username is required';
                                 }
                                 //Check to determine if the input value is less than 4 characters long
-                                if (value.length < 5) {
+                                if (fieldValue.length < 5) {
                                   return 'Username must be at least 5 characters';
                                 }
                               },
-                              onSaved: (String value) {
+                              onSaved: (fieldValue) {
                                 //Setting the state
-                                _username = value;
+                                username = fieldValue;
                               },
                             ),
                           ),
@@ -111,19 +112,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                       TextStyle(color: Colors.grey[400])),
                               keyboardType: TextInputType.visiblePassword,
                               //Validation - checks if the field value is empty
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (fieldValue) {
+                                if (fieldValue.isEmpty) {
                                   return 'Password is required';
                                 }
                                 //Check to determine if the input value is less than 8 characters long
-                                if (value.length < 8) {
+                                if (fieldValue.length < 8) {
                                   return 'Password must be at least 8 characters';
                                 }
                               },
-                              onSaved: (String value) {
+                              onSaved: (fieldValue) {
                                 //Setting the state
-                                _password = value;
+                                password = fieldValue;
                               },
+                              //Hiding the password field
+                              obscureText: true,
                             ),
                           ),
                         ],
@@ -140,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         //Save the current state in memory
                         validationKey.currentState.save();
 
-                        print(_username);
                         //Navigate to the main application
                         Navigator.push(
                           context,
