@@ -18,42 +18,87 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 350,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/background.png'),
-                      fit: BoxFit.contain)),
-            ),
-            Column(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: EdgeInsets.only(left: 27),
-                      child: Text("Existing account login.",
-                          style: TextStyle(color: Colors.black, fontSize: 26)),
-                    ))
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(25),
-              child: Column(
+        //Form
+        child: Form(
+          //Accessing the key
+          key: validationKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 350,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/background.png'),
+                        fit: BoxFit.contain)),
+              ),
+              Column(
                 children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .3),
-                              blurRadius: 25.0,
-                              offset: Offset(0, 7)),
-                        ]),
-                    child: Form(
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 27),
+                        child: Text("Existing account login.",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 26)),
+                      ))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.all(25),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7)),
+                          ]),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter your username",
+                                hintStyle: TextStyle(color: Colors.grey[400]),
+                              ),
+                              //Validation - checks if the field value is empty
+                              validator: (String value) {
+                                if (value.isEmpty) {
+                                  return 'Username is required';
+                                }
+                                //Check to determine if the input value is less than 4 characters long
+                                if (value.length < 5) {
+                                  return 'Username must be at least 5 characters';
+                                }
+                              },
+                              onSaved: (String value) {
+                                //Setting the state
+                                _username = value;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7)),
+                          ]),
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -61,79 +106,76 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: TextFormField(
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "Enter your username",
+                                  hintText: "Enter your password",
                                   hintStyle:
                                       TextStyle(color: Colors.grey[400])),
+                              keyboardType: TextInputType.visiblePassword,
+                              //Validation - checks if the field value is empty
+                              validator: (String value) {
+                                if (value.isEmpty) {
+                                  return 'Password is required';
+                                }
+                                //Check to determine if the input value is less than 8 characters long
+                                if (value.length < 8) {
+                                  return 'Password must be at least 8 characters';
+                                }
+                              },
+                              onSaved: (String value) {
+                                //Setting the state
+                                _password = value;
+                              },
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20.0),
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .3),
-                              blurRadius: 25.0,
-                              offset: Offset(0, 7)),
-                        ]),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Enter your password",
-                                hintStyle: TextStyle(color: Colors.grey[400])),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (!validationKey.currentState.validate()) {
+                          return; //Form is vaild
+                        }
+                        //Save the current state in memory
+                        validationKey.currentState.save();
+
+                        print(_username);
+                        //Navigate to the main application
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(36, 97, 227, .8),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "L O G I N",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(36, 97, 227, .8),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "L O G I N",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Text(
-                    "Forgotten password?",
-                    style: TextStyle(color: Colors.grey[400]),
-                  )
-                ],
+                    SizedBox(
+                      height: 60,
+                    ),
+                    Text(
+                      "Forgotten password?",
+                      style: TextStyle(color: Colors.grey[400]),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
