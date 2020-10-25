@@ -1,6 +1,7 @@
 import 'package:Bankify/screens/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -169,10 +170,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 60,
                     ),
-                    Text(
-                      "Forgotten password?",
-                      style: TextStyle(color: Colors.grey[400]),
-                    )
+                    GestureDetector(
+                      onTap: () {
+                        //Open Modal
+                        _forgotPasswordModal(context);
+                      },
+                      child: Text("Forgotten password?",
+                          style: TextStyle(color: Colors.grey[400])),
+                    ),
                   ],
                 ),
               ),
@@ -181,5 +186,59 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  //Logic for opening a modal
+  void _forgotPasswordModal(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext buildContext) {
+          //here we return the view
+          return Container(
+            //Configuring the view port of the device's screen
+            height: MediaQuery.of(context).size.height * .45,
+            child: Padding(
+              padding: EdgeInsets.only(right: 17, top: 17),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(CupertinoIcons.arrow_down_circle_fill,
+                            color: Color.fromRGBO(36, 97, 227, .8), size: 30),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 27, top: 30),
+                          child: Text(
+                              "Hey there! Please contact your bank in regards to your account password.",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 200,
+                    padding: EdgeInsets.only(top: 20),
+                    child: Lottie.asset(
+                      'assets/lottie/bankcontact.json',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
