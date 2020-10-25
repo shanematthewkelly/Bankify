@@ -155,6 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(36, 97, 227, .8),
                           borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7))
+                          ],
                         ),
                         child: Center(
                           child: Text(
@@ -206,6 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
+                          //Modal 'Close' Button
                           Navigator.of(context).pop();
                         },
                         child: Icon(CupertinoIcons.arrow_down_circle_fill,

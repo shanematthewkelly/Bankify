@@ -1,7 +1,6 @@
+import 'package:Bankify/screens/loaderScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'screens/loginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: Preloader(),
       debugShowCheckedModeBanner: false,
     );
   }
