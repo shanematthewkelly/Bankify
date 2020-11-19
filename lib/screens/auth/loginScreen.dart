@@ -1,7 +1,10 @@
+import 'package:Bankify/models/user.dart';
+import 'package:Bankify/screens/auth/registerScreen.dart';
 import 'package:Bankify/screens/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +14,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //Key used to check any state changes
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
+
+  //Setup our preloader display
+  bool _isLoading = false;
+
+  //Form Field Controllers
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
 
   //String variables
   String username, password;
@@ -33,24 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         image: AssetImage('assets/images/background.png'),
                         fit: BoxFit.contain)),
               ),
-              Column(
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        padding: EdgeInsets.only(left: 27),
-                        child: Text("Existing account login.",
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 26)),
-                      ))
-                ],
-              ),
               Padding(
                 padding: EdgeInsets.all(25),
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.only(left: 5, top: 1, bottom: 1),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -65,19 +63,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                             padding: EdgeInsets.all(5),
                             child: TextFormField(
+                              controller: controllerEmail,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: "Enter your username",
+                                hintText: "Enter your email",
                                 hintStyle: TextStyle(color: Colors.grey[400]),
                               ),
                               //Validation - checks if the field value is empty
                               validator: (fieldValue) {
                                 if (fieldValue.isEmpty) {
-                                  return 'Username is required';
+                                  return 'Email is required';
                                 }
                                 //Check to determine if the input value is less than 4 characters long
                                 if (fieldValue.length < 5) {
-                                  return 'Username must be at least 5 characters';
+                                  return 'Email must be at least 5 characters';
                                 }
                               },
                               onSaved: (fieldValue) {
@@ -91,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20.0),
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.only(left: 5, top: 1, bottom: 1),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -106,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                             padding: EdgeInsets.all(5),
                             child: TextFormField(
+                              controller: controllerPassword,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter your password",
@@ -136,19 +136,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 30,
                     ),
+                    //Login
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (!validationKey.currentState.validate()) {
-                          return; //Form is vaild
+                          return;
                         }
                         //Save the current state in memory
                         validationKey.currentState.save();
 
-                        //Navigate to the main application
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
+                        //Here we authenticate the user with our Express REST API
+                        final String email = controllerEmail.text;
+                        final String password = controllerPassword.text;
+
+                        //Preloader active
+                        _isLoading = true;
+
+                        //Calling the Future
+                        signIn(email, password);
                       },
                       child: Container(
                         height: 50,
@@ -165,6 +170,39 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Center(
                           child: Text(
                             "L O G I N",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                    //Register
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(219, 0, 161, 1),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(219, 0, 161, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7))
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "R E G I S T E R",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -247,5 +285,32 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         });
+  }
+
+  Future<UserModel> signIn(String email, String password) async {
+    //Accessing the AWS Amplify endpoint
+    final String endpoint =
+        "https://t3tjyg5p36.execute-api.us-east-1.amazonaws.com/dev/users/login";
+
+    //Attempting to retrieve the repsonse body
+    final response =
+        await http.post(endpoint, body: {"email": email, "password": password});
+
+    if (response.statusCode == 200) {
+      final responseBody = response.body;
+
+      //If the status code is 200 and we have recieved the correct credentials, we can go to the next route
+      setState(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      });
+
+      return userModelFromJson(responseBody);
+    } else {
+      print("Incorrect email or password");
+      return null;
+    }
   }
 }

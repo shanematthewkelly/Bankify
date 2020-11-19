@@ -23,12 +23,12 @@ environment:
 dependencies:
   flutter_swiper: ^1.1.6
   lottie: ^0.4.1
+  cupertino_icons: ^1.0.0
+  http: ^0.12.2
+
+  # Main
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +68,6 @@ flutter:
     - family: MetroMedium
       fonts:
         - asset: assets/fonts/Metropolis-Medium.otf
-        
 
     - family: MetroBold
       fonts:

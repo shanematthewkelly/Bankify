@@ -1,5 +1,5 @@
 import 'package:Bankify/models/introData.dart';
-import 'package:Bankify/screens/loginScreen.dart';
+import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -30,7 +30,7 @@ class IntroScreen extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'Explore',
+                      'Discover',
                       style: TextStyle(
                           fontSize: 40,
                           fontFamily: 'MetroBold',
@@ -158,18 +158,18 @@ class IntroScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(14, 135, 235, 1),
-        ),
-        padding: EdgeInsets.all(15),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
-          },
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(14, 135, 235, 1),
+          ),
+          padding: EdgeInsets.all(15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -1,5 +1,5 @@
 import 'package:Bankify/screens/introScreen.dart';
-import 'package:Bankify/screens/loginScreen.dart';
+import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
