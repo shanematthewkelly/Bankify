@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void isUserLoggedIn() async {
     sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getString("token") == null) {
-      print("Whoops! This user does not seemed to be logged in correctly.");
+      //Redirect to login screen, user has no token
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),

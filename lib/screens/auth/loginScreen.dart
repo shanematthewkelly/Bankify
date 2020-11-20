@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:Bankify/models/user.dart';
 import 'package:Bankify/screens/auth/registerScreen.dart';
-import 'package:Bankify/screens/homeScreen.dart';
+import 'package:Bankify/screens/core/bankConnectScreen.dart';
+import 'package:Bankify/screens/core/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -257,11 +258,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         //Load new route
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
+            MaterialPageRoute(builder: (BuildContext context) => ConnectBank()),
             (Route<dynamic> route) => false);
       });
 
-      print(dataToJsonFormat);
       return dataToJsonFormat;
     } else {
       //User has entered the wrong information, call this function to display a modal
