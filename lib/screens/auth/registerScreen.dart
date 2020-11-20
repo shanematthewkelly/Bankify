@@ -16,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 Future<UserModel> userRegister(String name, email, phone, password) async {
   //Accessing the AWS Amplify endpoint
   final String endpoint =
-      "https://t3tjyg5p36.execute-api.us-east-1.amazonaws.com/dev/users/register";
+      "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/users/register";
 
   //Attempting to retrieve the repsonse body
   final response = await http.post(endpoint, body: {
@@ -31,7 +31,7 @@ Future<UserModel> userRegister(String name, email, phone, password) async {
 
     return userModelFromJson(responseBody);
   } else {
-    log("Error in response");
+    print("Issue contacting the server.");
     return null;
   }
 }
@@ -39,9 +39,6 @@ Future<UserModel> userRegister(String name, email, phone, password) async {
 class _RegisterScreenState extends State<RegisterScreen> {
   //Key used to check any state changes
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
-
-//Global variable for our UserModel class
-  UserModel _user;
 
   //Form Field Controllers
   final TextEditingController controllerName = TextEditingController();
@@ -275,10 +272,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         //Calling the Future
                         final UserModel user =
                             await userRegister(name, email, phone, password);
-
-                        setState(() {
-                          _user = user;
-                        });
 
                         //Navigate to the login screen
                         Navigator.push(

@@ -1,5 +1,5 @@
 import 'package:Bankify/screens/auth/loginScreen.dart';
-import 'package:Bankify/screens/auth/registerScreen.dart';
+import 'package:Bankify/screens/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,7 +27,4 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
     );
   }
-  // home: RegisterScreen(),
-  // home: IntroScreen(),
-  // home: Preloader(),
 }

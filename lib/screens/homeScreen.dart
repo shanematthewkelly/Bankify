@@ -1,6 +1,8 @@
 import 'package:Bankify/components/navbar.dart';
+import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,6 +13,16 @@ enum NavigationIcons { Home, Payments, Rewards, Account, Support }
 
 class _HomeScreenState extends State<HomeScreen> {
   NavigationIcons navigationIcons = NavigationIcons.Home;
+
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    //Here we make a call to this anonymous function
+    isUserLoggedIn();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,5 +189,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  //Here we are simply checking whether the user has a token assigned to them or not
+  void isUserLoggedIn() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("token") == null) {
+      print("Whoops! This user does not seemed to be logged in correctly.");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:Bankify/models/user.dart';
 import 'package:Bankify/screens/auth/registerScreen.dart';
 import 'package:Bankify/screens/homeScreen.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -38,10 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Container(
                 height: 350,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/background.png'),
-                        fit: BoxFit.contain)),
+                child: Lottie.asset(
+                  'assets/lottie/login.json',
+                  fit: BoxFit.contain,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.all(25),
@@ -150,7 +152,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         final String password = controllerPassword.text;
 
                         //Preloader active
-                        _isLoading = true;
+                        setState(() {
+                          _isLoading = true;
+                        });
 
                         //Calling the Future
                         signIn(email, password);
@@ -216,8 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        //Open Modal
-                        _forgotPasswordModal(context);
+                        //TODO: Forgot Password Handler
                       },
                       child: Text("Forgotten password?",
                           style: TextStyle(color: Colors.grey[400])),
@@ -232,8 +235,42 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  //Logic for opening a modal
-  void _forgotPasswordModal(context) {
+  Future signIn(String email, String password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    //Accessing the AWS Amplify endpoint
+    final String endpoint =
+        "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/users/login";
+
+    //Attempting to retrieve the repsonse body
+    final response = await http.post(endpoint,
+        headers: {"Accept": "Application/json"},
+        body: {"email": email, "password": password});
+
+    var dataToJsonFormat = jsonDecode(response.body);
+
+    //Correct user credentials
+    if (response.statusCode == 200) {
+      setState(() {
+        //Setting the user token
+        sharedPreferences.setString("token", dataToJsonFormat["token"]);
+
+        //Load new route
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
+            (Route<dynamic> route) => false);
+      });
+
+      print(dataToJsonFormat);
+      return dataToJsonFormat;
+    } else {
+      //User has entered the wrong information, call this function to display a modal
+      incorrectUserDetails();
+      return null;
+    }
+  }
+
+  void incorrectUserDetails() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext buildContext) {
@@ -265,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Container(
                           padding: EdgeInsets.only(left: 27, top: 30),
                           child: Text(
-                              "Hey there! Please contact your bank in regards to your account password.",
+                              "The details you have entered for your account seem to be incorrect, sorry!",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 18)),
                         ),
@@ -276,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 200,
                     padding: EdgeInsets.only(top: 20),
                     child: Lottie.asset(
-                      'assets/lottie/bankcontact.json',
+                      'assets/lottie/incorrect.json',
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -285,32 +322,5 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         });
-  }
-
-  Future<UserModel> signIn(String email, String password) async {
-    //Accessing the AWS Amplify endpoint
-    final String endpoint =
-        "https://t3tjyg5p36.execute-api.us-east-1.amazonaws.com/dev/users/login";
-
-    //Attempting to retrieve the repsonse body
-    final response =
-        await http.post(endpoint, body: {"email": email, "password": password});
-
-    if (response.statusCode == 200) {
-      final responseBody = response.body;
-
-      //If the status code is 200 and we have recieved the correct credentials, we can go to the next route
-      setState(() {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      });
-
-      return userModelFromJson(responseBody);
-    } else {
-      print("Incorrect email or password");
-      return null;
-    }
   }
 }
