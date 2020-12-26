@@ -26,6 +26,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   http: ^0.12.2
   shared_preferences: ^0.5.12+4
+  plaid_flutter: ^1.1.6
 
   # Main
   flutter:

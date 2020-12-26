@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plaid_flutter/plaid_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectBank extends StatefulWidget {
   @override
@@ -21,78 +26,33 @@ class _ConnectBankState extends State<ConnectBank> {
                   top: 50,
                   left: 25,
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Welcome, Shane.',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'MetroBold',
-                          color: Colors.black),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                ),
               ),
-              Expanded(
+              GestureDetector(
+                onTap: () async {
+                  // Run function responsible for initializing Plaid Link
+                  initializePlaidLink();
+                },
                 child: Container(
-                  margin:
-                      EdgeInsets.only(left: 20, right: 20, top: 80, bottom: 30),
-                  child: ListView(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(14, 135, 235, 1),
+                  ),
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.purple, Colors.red],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
-                                blurRadius: 8,
-                                spreadRadius: 2,
-                                offset: Offset(4, 4)),
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.electrical_services,
-                                      color: Colors.white,
-                                      size: 24,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'L I N K  T H I S  B A N K',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                Switch(
-                                  onChanged: (bool value) {},
-                                  value: true,
-                                  activeColor: Colors.white,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "Bank of Ireland",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontFamily: 'avenir'),
-                            )
-                          ],
+                      Text(
+                        "LINK YOUR BANK",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            letterSpacing: 5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Icon(
+                          CupertinoIcons.arrowshape_turn_up_right,
+                          color: Colors.white,
+                          size: 16,
                         ),
                       ),
                     ],
@@ -104,5 +64,30 @@ class _ConnectBankState extends State<ConnectBank> {
         ),
       ),
     );
+  }
+
+  //Connect to Plaid Backend
+  Future initializePlaidLink() async {
+    final String url =
+        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/create_link_token";
+
+    final response =
+        await http.post(url, headers: {"Accept": "Application/json"});
+
+    if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+
+      LinkConfiguration configuration = LinkConfiguration(
+        linkToken: responseData['link_token'],
+      );
+
+      PlaidLink _plaidLink = PlaidLink(
+        configuration: configuration,
+      );
+
+      _plaidLink.open();
+    } else {
+      // TODO: Handle the error accordingly
+    }
   }
 }
