@@ -1,5 +1,7 @@
+import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:Bankify/screens/core/bankConnectScreen.dart';
 import 'package:Bankify/screens/intro/loaderScreen.dart';
+import 'package:Bankify/screens/utils/bankSuccessful.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         //Application Global Theme
         primarySwatch: Colors.red,
       ),
-      home: ConnectBank(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

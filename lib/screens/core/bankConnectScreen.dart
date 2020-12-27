@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:Bankify/screens/core/homeScreen.dart';
+import 'package:Bankify/screens/utils/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -16,69 +18,71 @@ class _ConnectBankState extends State<ConnectBank> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          ClipPath(
-            clipper: TopBackgroundClipper(),
-            child: Container(
-              height: 280,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Color(0xFF3383CD), Color(0xFF11249F)]),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(top: 90, left: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome, Shane.',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'MetroBold',
-                          color: Colors.white),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ClipPath(
+              clipper: TopBackgroundClipper(),
+              child: Container(
+                height: 280,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [Color(0xFF3383CD), Color(0xFF11249F)]),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 90, left: 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Welcome, Shane.',
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontFamily: 'MetroBold',
+                            color: Colors.white),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 40),
-                height: 180,
-                child: Lottie.asset(
-                  'assets/lottie/connect.json',
-                  fit: BoxFit.contain,
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  height: 180,
+                  child: Lottie.asset(
+                    'assets/lottie/connect.json',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  'Link with us.',
-                  style: TextStyle(
-                      fontSize: 26,
-                      fontFamily: 'MetroBold',
-                      color: Colors.black),
-                  textAlign: TextAlign.center,
+                Container(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Text(
+                    'Link with us.',
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontFamily: 'MetroBold',
+                        color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: Text(
-                  'We will ask you to link your primary bank account now. Not to worry, you can always link more later.',
-                  style: TextStyle(fontSize: 16, color: Colors.black26),
-                  textAlign: TextAlign.center,
+                Container(
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                  child: Text(
+                    'We will ask you to link your primary bank account now. Not to worry, you can always link more later.',
+                    style: TextStyle(fontSize: 16, color: Colors.black26),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: GestureDetector(
         onTap: () async {
@@ -128,12 +132,20 @@ class _ConnectBankState extends State<ConnectBank> {
 
       PlaidLink _plaidLink = PlaidLink(
         configuration: configuration,
+        onSuccess: _onSuccessCallback,
       );
 
       _plaidLink.open();
     } else {
       // TODO: Handle the error accordingly
     }
+  }
+
+  //Callbacks
+  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BankSuccessful()),
+        (Route<dynamic> route) => false);
   }
 }
 
