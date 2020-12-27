@@ -74,6 +74,10 @@ flutter:
     - family: MetroBold
       fonts:
         - asset: assets/fonts/Metropolis-Bold.otf
+
+    - family: Audiowide
+      fonts:
+        - asset: assets/fonts/Audiowide-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

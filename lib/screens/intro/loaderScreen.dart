@@ -1,72 +1,86 @@
 import 'package:Bankify/screens/intro/introScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class Preloader extends StatefulWidget {
   @override
   _PreloaderState createState() => _PreloaderState();
 }
 
-class _PreloaderState extends State<Preloader> {
+class _PreloaderState extends State<Preloader>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animController;
+
   @override
-  //Rendering the view for only 5 seconds using Future Delay before going to new screen
   void initState() {
+    // Animation setup
+    _animController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1500));
+
+    _animController.forward();
     super.initState();
+
+    // Rendering the view for only 5 seconds
     new Future.delayed(
-        const Duration(seconds: 6),
+        const Duration(milliseconds: 4000),
         () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => IntroScreen()),
             ));
   }
 
+  @override
+  void dispose() {
+    // Memory Mangement
+    _animController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/loaderbackground.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "BANKIFY",
-                    style: TextStyle(
-                      fontFamily: 'VarelaRound',
-                      color: Colors.black,
-                      fontSize: 40,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 40),
-                    height: 220,
-                    padding: EdgeInsets.all(25),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color.fromRGBO(143, 148, 251, .3),
-                            blurRadius: 25.0,
-                            offset: Offset(0, 7)),
-                      ],
-                    ),
-                    child: Lottie.asset(
-                      'assets/lottie/bankify-loader.json',
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: <Widget>[
+          BankifyTitle(
+            animationLocal: _animController,
           ),
-        ));
+        ],
+      ),
+    );
+  }
+}
+
+class BankifyTitle extends StatelessWidget {
+  // Local Animation Controller
+  final AnimationController animationLocal;
+
+  // Constructor
+  BankifyTitle({@required this.animationLocal});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      height: MediaQuery.of(context).size.height / 1,
+      child: Center(
+        child: FadeTransition(
+          opacity: animationLocal,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "BANKIFY",
+                style: TextStyle(
+                  fontFamily: 'Audiowide',
+                  color: Colors.black,
+                  fontSize: 40,
+                  letterSpacing: 1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

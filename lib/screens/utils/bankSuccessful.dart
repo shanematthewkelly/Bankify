@@ -28,7 +28,7 @@ class _BankSuccessfulState extends State<BankSuccessful> {
                 child: Container(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    'Account Linked Succesfully.',
+                    'Account Linked Successfully.',
                     style: TextStyle(
                         fontSize: 22,
                         fontFamily: 'MetroBold',
