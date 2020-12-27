@@ -12,10 +12,7 @@ class IntroScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(14, 135, 235, 1),
-              Color.fromRGBO(20, 202, 222, 1)
-            ],
+            colors: [Color(0xFF11249F), Color(0xFF3383CD)],
           ),
         ),
         child: SafeArea(
@@ -167,7 +164,7 @@ class IntroScreen extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(14, 135, 235, 1),
+            color: Color(0xFF11249F),
           ),
           padding: EdgeInsets.all(15),
           child: Row(

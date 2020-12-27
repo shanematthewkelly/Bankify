@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectBank extends StatefulWidget {
   @override
@@ -16,50 +16,95 @@ class _ConnectBankState extends State<ConnectBank> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 50,
-                  left: 25,
+      body: Column(
+        children: <Widget>[
+          ClipPath(
+            clipper: TopBackgroundClipper(),
+            child: Container(
+              height: 280,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Color(0xFF3383CD), Color(0xFF11249F)]),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 90, left: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome, Shane.',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'MetroBold',
+                          color: Colors.white),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
                 ),
               ),
-              GestureDetector(
-                onTap: () async {
-                  // Run function responsible for initializing Plaid Link
-                  initializePlaidLink();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(14, 135, 235, 1),
-                  ),
-                  padding: EdgeInsets.all(15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "LINK YOUR BANK",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            letterSpacing: 5),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Icon(
-                          CupertinoIcons.arrowshape_turn_up_right,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
-                    ],
-                  ),
+            ),
+          ),
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 40),
+                height: 180,
+                child: Lottie.asset(
+                  'assets/lottie/connect.json',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: Text(
+                  'Link with us.',
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: 'MetroBold',
+                      color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                child: Text(
+                  'We will ask you to link your primary bank account now. Not to worry, you can always link more later.',
+                  style: TextStyle(fontSize: 16, color: Colors.black26),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: GestureDetector(
+        onTap: () async {
+          await initializePlaidLink();
+        },
+        child: Container(
+          margin: EdgeInsets.all(15),
+          height: 50,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(36, 97, 227, .8),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(143, 148, 251, .3),
+                  blurRadius: 25.0,
+                  offset: Offset(0, 7))
+            ],
+          ),
+          child: Center(
+            child: Text(
+              "L I N K",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
@@ -89,5 +134,23 @@ class _ConnectBankState extends State<ConnectBank> {
     } else {
       // TODO: Handle the error accordingly
     }
+  }
+}
+
+class TopBackgroundClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var customPath = Path();
+    customPath.lineTo(0.0, size.height - 80);
+    customPath.lineTo(size.width, size.height);
+    customPath.lineTo(size.width, 0.0);
+    customPath.close();
+
+    return customPath;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

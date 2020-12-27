@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:Bankify/models/user.dart';
 import 'package:Bankify/screens/auth/registerScreen.dart';
 import 'package:Bankify/screens/core/bankConnectScreen.dart';
-import 'package:Bankify/screens/core/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
