@@ -21,10 +21,10 @@ class _BankSuccessfulState extends State<BankSuccessful> {
                 alignment: Alignment.bottomCenter,
                 height: MediaQuery.of(context).size.height / 2.2,
                 child: Lottie.asset('assets/lottie/bankConnected.json',
-                    fit: BoxFit.contain, height: 150),
+                    fit: BoxFit.contain, height: 200),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 25),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: Container(
                   alignment: Alignment.topCenter,
                   child: Text(
