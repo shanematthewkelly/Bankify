@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         //Application Global Theme
         primarySwatch: Colors.red,
       ),
-      home: Preloader(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

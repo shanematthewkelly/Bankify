@@ -246,13 +246,14 @@ class _LoginScreenState extends State<LoginScreen> {
         headers: {"Accept": "Application/json"},
         body: {"email": email, "password": password});
 
-    var dataToJsonFormat = jsonDecode(response.body);
+    var responseData = jsonDecode(response.body);
 
     //Correct user credentials
     if (response.statusCode == 200) {
       setState(() {
-        //Setting the user token
-        sharedPreferences.setString("token", dataToJsonFormat["token"]);
+        //Setting the user token & ID
+        sharedPreferences.setString("token", responseData["token"]);
+        sharedPreferences.setString("userId", responseData["userId"]);
 
         //Load new route
         Navigator.of(context).pushAndRemoveUntil(
@@ -260,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
             (Route<dynamic> route) => false);
       });
 
-      return dataToJsonFormat;
+      return responseData;
     } else {
       //User has entered the wrong information, call this function to display a modal
       incorrectUserDetails();

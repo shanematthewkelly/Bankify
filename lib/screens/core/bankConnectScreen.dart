@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:Bankify/screens/core/homeScreen.dart';
 import 'package:Bankify/screens/utils/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectBank extends StatefulWidget {
   @override
@@ -14,6 +14,22 @@ class ConnectBank extends StatefulWidget {
 }
 
 class _ConnectBankState extends State<ConnectBank> {
+  @override
+  void initState() {
+    accountName();
+    super.initState();
+  }
+
+  // Retrieving the value of our accountName() Future
+  // and set its' state
+  String username = "";
+
+  _ConnectBankState() {
+    accountName().then((value) => setState(() {
+          username = value;
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +54,7 @@ class _ConnectBankState extends State<ConnectBank> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome, Shane.',
+                        'Welcome, ' + username + '.',
                         style: TextStyle(
                             fontSize: 30,
                             fontFamily: 'MetroBold',
@@ -113,6 +129,28 @@ class _ConnectBankState extends State<ConnectBank> {
         ),
       ),
     );
+  }
+
+  Future accountName() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    // Retrieve the currently logged in user's ID
+    final String userId = sharedPreferences.getString("userId");
+
+    final String url =
+        "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/retrieve/users/" +
+            userId;
+
+    final response =
+        await http.get(url, headers: {"Accept": "Application/json"});
+
+    var responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      var username = responseData["userRetrieved"]["name"];
+
+      return await username;
+    }
   }
 
   //Connect to Plaid Backend
