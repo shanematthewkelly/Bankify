@@ -253,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         //Setting the user token & ID
         sharedPreferences.setString("token", responseData["token"]);
-        sharedPreferences.setString("userId", responseData["userId"]);
+        sharedPreferences.setString("userId", responseData["id"]);
 
         //Load new route
         Navigator.of(context).pushAndRemoveUntil(
