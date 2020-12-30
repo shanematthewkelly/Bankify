@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:Bankify/screens/utils/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class ConnectBank extends StatefulWidget {
 class _ConnectBankState extends State<ConnectBank> {
   @override
   void initState() {
+    checkPlaidForAcessToken();
     accountName();
+    isUserLoggedIn();
     super.initState();
   }
 
@@ -153,6 +156,18 @@ class _ConnectBankState extends State<ConnectBank> {
     }
   }
 
+  // This will check whether the user has an access token or not
+  Future checkPlaidForAcessToken() async {
+    final String url =
+        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/info";
+
+    final response =
+        await http.post(url, headers: {"Accept": "Application/json"});
+
+    var responseData = jsonDecode(response.body);
+    print(responseData);
+  }
+
   //Connect to Plaid Backend
   Future initializePlaidLink() async {
     final String url =
@@ -161,9 +176,9 @@ class _ConnectBankState extends State<ConnectBank> {
     final response =
         await http.post(url, headers: {"Accept": "Application/json"});
 
-    if (response.statusCode == 200) {
-      var responseData = jsonDecode(response.body);
+    var responseData = jsonDecode(response.body);
 
+    if (response.statusCode == 200) {
       LinkConfiguration configuration = LinkConfiguration(
         linkToken: responseData['link_token'],
       );
@@ -179,11 +194,23 @@ class _ConnectBankState extends State<ConnectBank> {
     }
   }
 
-  //Callbacks
+  // Callbacks
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (BuildContext context) => BankSuccessful()),
         (Route<dynamic> route) => false);
+  }
+
+  // Token Check
+  void isUserLoggedIn() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("token") == null) {
+      //Redirect to login screen, user has no token
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
   }
 }
 

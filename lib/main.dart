@@ -1,5 +1,6 @@
 import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:Bankify/screens/core/bankConnectScreen.dart';
+import 'package:Bankify/screens/core/homeScreen.dart';
 import 'package:Bankify/screens/intro/loaderScreen.dart';
 import 'package:Bankify/screens/utils/bankSuccessful.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.white, // navigation bar color
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
         //Application Global Theme
         primarySwatch: Colors.red,
       ),
-      home: LoginScreen(),
+      home: ConnectBank(),
       debugShowCheckedModeBanner: false,
     );
   }
