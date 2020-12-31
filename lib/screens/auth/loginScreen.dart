@@ -248,18 +248,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var responseData = jsonDecode(response.body);
 
+    //Setting the user token & ID
+    sharedPreferences.setString("token", responseData["token"]);
+    sharedPreferences.setString("userId", responseData["id"]);
+
     //Correct user credentials
     if (response.statusCode == 200) {
-      setState(() {
-        //Setting the user token & ID
-        sharedPreferences.setString("token", responseData["token"]);
-        sharedPreferences.setString("userId", responseData["id"]);
-
-        //Load new route
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => ConnectBank()),
-            (Route<dynamic> route) => false);
-      });
+      //Load new route
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => ConnectBank()),
+          (Route<dynamic> route) => false);
 
       return responseData;
     } else {

@@ -17,10 +17,25 @@ class ConnectBank extends StatefulWidget {
 class _ConnectBankState extends State<ConnectBank> {
   @override
   void initState() {
+    // isUserLoggedIn();
     checkPlaidForAcessToken();
     accountName();
-    isUserLoggedIn();
     super.initState();
+  }
+
+  // Token Check
+  Future isUserLoggedIn() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var userToken = sharedPreferences.getString("token");
+
+    setState(() {
+      if (userToken == null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      }
+    });
   }
 
   // Retrieving the value of our accountName() Future
@@ -156,8 +171,11 @@ class _ConnectBankState extends State<ConnectBank> {
     }
   }
 
-  // This will check whether the user has an access token or not
+  // This will check whether the user has an access token stored in local memory
+  // Will remove in future update (Testing purposes)
   Future checkPlaidForAcessToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     final String url =
         "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/info";
 
@@ -165,7 +183,14 @@ class _ConnectBankState extends State<ConnectBank> {
         await http.post(url, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body);
-    print(responseData);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        sharedPreferences.setString(
+            "accessToken", responseData["access_token"]);
+        sharedPreferences.getString("accessToken");
+      });
+    }
   }
 
   //Connect to Plaid Backend
@@ -194,22 +219,23 @@ class _ConnectBankState extends State<ConnectBank> {
     }
   }
 
-  // Callbacks
-  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (BuildContext context) => BankSuccessful()),
-        (Route<dynamic> route) => false);
-  }
+  // Bank linked
+  Future _onSuccessCallback(
+      String publicToken, LinkSuccessMetadata metadata) async {
+    final String url =
+        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/set_access_token";
 
-  // Token Check
-  void isUserLoggedIn() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      //Redirect to login screen, user has no token
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+    // Our public token is sent in the POST request body in order to exchange it
+    // For an access token on the server.
+    final response = await http.post(url,
+        headers: {"Accept": "Application/json"},
+        body: {"public_token": publicToken});
+
+    if (response.statusCode == 200) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (BuildContext context) => BankSuccessful()),
+          (Route<dynamic> route) => false);
     }
   }
 }

@@ -264,13 +264,16 @@ class _HomeScreenState extends State<HomeScreen> {
   // Here we are simply checking whether the user has a token assigned to them or not
   void isUserLoggedIn() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      // Redirect to login screen, user has no token
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
-    }
+
+    setState(() {
+      if (sharedPreferences.getString("token") == null) {
+        // Redirect to login screen, user has no token
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      }
+    });
   }
 }
 
