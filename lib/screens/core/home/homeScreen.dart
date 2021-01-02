@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
             navigationIcons == NavigationIcons.Home
                 ? Container(
                     height: 50,
+                    padding: EdgeInsets.only(bottom: 20),
                     width: MediaQuery.of(context).size.height / 1,
                     margin: EdgeInsets.only(top: 60, left: 20),
                     child: TabBar(
