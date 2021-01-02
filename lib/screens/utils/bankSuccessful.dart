@@ -1,4 +1,4 @@
-import 'package:Bankify/screens/core/homeScreen.dart';
+import 'package:Bankify/screens/core/home/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
