@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
+    // isUserLoggedIn();
     _tabController = TabController(vsync: this, length: 3);
   }
 

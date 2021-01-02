@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         //Application Global Theme
         primarySwatch: Colors.red,
       ),
-      home: HomeScreen(),
+      home: ConnectBank(),
       debugShowCheckedModeBanner: false,
     );
   }
