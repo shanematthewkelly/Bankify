@@ -1,16 +1,13 @@
-import 'dart:convert';
-
+import 'package:Bankify/screens/core/accountsDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 
-class AllAccounts extends StatefulWidget {
+class AccountsFragment extends StatefulWidget {
   @override
-  _AllAccountsState createState() => _AllAccountsState();
+  _AccountsFragmentState createState() => _AccountsFragmentState();
 }
 
-class _AllAccountsState extends State<AllAccounts> {
+class _AccountsFragmentState extends State<AccountsFragment> {
   @override
   void initState() {
     super.initState();
@@ -19,130 +16,120 @@ class _AllAccountsState extends State<AllAccounts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(244, 244, 244, 1),
-      body: Container(
-        child: FutureBuilder(
-          future: getCurrentBanks(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              // Wait for resolve
-              return Container(
-                height: MediaQuery.of(context).size.height / 1,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Lottie.asset('assets/lottie/feed.json',
-                          fit: BoxFit.cover, height: 160),
-                    ],
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.height / 1,
+              margin: EdgeInsets.only(left: 15, right: 15, top: 0),
+              padding: EdgeInsets.only(top: 25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: Offset(0, 0.5)),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 70,
+                    width: 70,
+                    margin: EdgeInsets.only(left: 14),
+                    child: Image.asset("assets/images/accounts-icon.png",
+                        fit: BoxFit.contain),
                   ),
-                ),
-              );
-            } else {
-              // Return our data
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: 600,
-                        padding: EdgeInsets.all(20),
-                        margin:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 0.2)),
-                            ],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  CupertinoIcons.creditcard,
-                                  color: Colors.black,
-                                  size: 24,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  " A C C O U N T",
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 18),
+                                child: Text(
+                                  "Get More\nFrom Your Accounts.",
                                   style: TextStyle(
-                                    color: Colors.black,
-                                  ),
+                                      fontSize: 28, fontFamily: 'MetroBold'),
                                 ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 18),
-                              child: Text(
-                                snapshot.data[index].accountName ?? '',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'MetroBold',
-                                    fontSize: 16),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 18, top: 10),
+                                child: Text(
+                                  "Dive in and explore more about our account types. Your accounts are private and safe with us.",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color.fromRGBO(191, 191, 191, 1)),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 30),
+                                alignment: Alignment.centerRight,
+                                height: 65,
+                                width: MediaQuery.of(context).size.height / 1,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(15)),
+                                  color: Color.fromRGBO(26, 68, 237, 1),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AccountsDetail()),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 20),
+                                        height: 40,
+                                        width: 180,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(60),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Get Started.",
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    26, 68, 237, 1),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
-          },
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  // Retrieves user's list of accounts
-  Future getCurrentBanks() async {
-    final String url =
-        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/accounts";
-
-    final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
-
-    var responseData = jsonDecode(response.body)['accounts'] as List;
-
-    List<AccountInformation> infoData = responseData
-        .map((result) => AccountInformation.fromJson(result))
-        .toList();
-
-    for (var accounts in responseData) {
-      AccountInformation accountInfo = AccountInformation(accounts[infoData]);
-
-      print(infoData.length);
-      infoData.add(accountInfo);
-    }
-
-    return infoData;
-  }
-}
-
-class AccountInformation {
-  final String accountName;
-
-  AccountInformation(this.accountName);
-
-  factory AccountInformation.fromJson(dynamic json) {
-    return AccountInformation(json["name"] as String);
-  }
-
-  @override
-  String toString() {
-    return '${this.accountName}';
   }
 }

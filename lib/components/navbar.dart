@@ -2,17 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatefulWidget {
-  //Created function and told the navbar to use it
-  Function onClickListener;
+  // Variables
+  final Function onClickListener;
+  final bool navigationalIcons;
+  final String menuItemText;
+  final IconData menuItemIcon;
 
-  //Boolean which determines whether the menu items are set to true or false
-  bool navigationalIcons;
-
-  String menuItemText;
-
-  IconData menuItemIcon;
-
-  //Passing in props
+  // Passing in props
   Navbar(
       {@required this.onClickListener,
       @required this.navigationalIcons,

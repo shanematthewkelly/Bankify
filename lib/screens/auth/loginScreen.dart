@@ -239,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //Accessing the AWS Amplify endpoint
     final String endpoint =
-        "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/users/login";
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/users/login";
 
     //Attempting to retrieve the repsonse body
     final response = await http.post(endpoint,

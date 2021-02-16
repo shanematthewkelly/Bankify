@@ -16,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 Future<UserModel> userRegister(String name, email, phone, password) async {
   //Accessing the AWS Amplify endpoint
   final String endpoint =
-      "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/users/register";
+      "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/users/register";
 
   //Attempting to retrieve the repsonse body
   final response = await http.post(endpoint, body: {
@@ -111,6 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (fieldValue.length < 3) {
                                   return 'Name must be at least 3 characters';
                                 }
+                                return '';
                               },
                               onSaved: (fieldValue) {
                                 //Setting the state
@@ -154,6 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (fieldValue.length < 5) {
                                   return 'Email must be at least 5 characters';
                                 }
+                                return '';
                               },
                               onSaved: (fieldValue) {
                                 //Setting the state
@@ -197,6 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (fieldValue.length < 5) {
                                   return 'Phone must be at least 5 characters';
                                 }
+                                return '';
                               },
                               onSaved: (fieldValue) {
                                 //Setting the state
@@ -240,6 +243,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (fieldValue.length < 8) {
                                   return 'Password must be at least 8 characters';
                                 }
+                                return '';
                               },
                               onSaved: (fieldValue) {
                                 //Setting the state

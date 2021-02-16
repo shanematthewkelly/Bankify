@@ -1,23 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Linked extends StatefulWidget {
+class LinkedFragement extends StatefulWidget {
   @override
-  _LinkedState createState() => _LinkedState();
+  _LinkedFragementState createState() => _LinkedFragementState();
 }
 
-class _LinkedState extends State<Linked> {
+class _LinkedFragementState extends State<LinkedFragement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(244, 244, 244, 1),
+      backgroundColor: Colors.transparent,
       body: Container(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.power),
-              Text("L I N K E D"),
+              Text("LINKED FRAGMENT",
+                  style: TextStyle(fontSize: 17, fontFamily: 'MetroBold')),
             ],
           ),
         ),

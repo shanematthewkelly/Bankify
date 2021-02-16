@@ -156,7 +156,7 @@ class _ConnectBankState extends State<ConnectBank> {
     final String userId = sharedPreferences.getString("userId");
 
     final String url =
-        "https://f58z5do560.execute-api.us-east-1.amazonaws.com/dev/retrieve/users/" +
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/retrieve/users/" +
             userId;
 
     final response =
@@ -177,7 +177,7 @@ class _ConnectBankState extends State<ConnectBank> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     final String url =
-        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/info";
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/info";
 
     final response =
         await http.post(url, headers: {"Accept": "Application/json"});
@@ -196,7 +196,7 @@ class _ConnectBankState extends State<ConnectBank> {
   //Connect to Plaid Backend
   Future initializePlaidLink() async {
     final String url =
-        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/create_link_token";
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/create_link_token";
 
     final response =
         await http.post(url, headers: {"Accept": "Application/json"});
@@ -223,7 +223,7 @@ class _ConnectBankState extends State<ConnectBank> {
   Future _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     final String url =
-        "https://q80qzg1rgh.execute-api.us-east-1.amazonaws.com/dev/api/set_access_token";
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/set_access_token";
 
     // Our public token is sent in the POST request body in order to exchange it
     // For an access token on the server.
