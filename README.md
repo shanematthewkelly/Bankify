@@ -4,11 +4,10 @@
 <h2>A Closer Look</h2>
 <div class="row">
 <img  width="35%" height="35%" src="https://i.imgur.com/niN5Ryb.png">
-<br>
-<br>
-<br>
 <img  width="32%" height="32%" src="https://i.imgur.com/LuoObLE.png">
 </div>
+<br>
+<br>
 <div class="row">
 <img  width="35%" height="35%" src="https://i.imgur.com/WXXoViN.png">
 <img  width="35%" height="35%" src="https://i.imgur.com/EVWWpPn.png">
