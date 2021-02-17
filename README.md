@@ -11,6 +11,6 @@
 <img  width="30%" height="30%" src="https://i.imgur.com/dnuKgQ3.png">
 </div>
 
-<h3>Installation Instructions</h3>
-<p>Clone this repository and open project in Android Studio or VS Code:</p>
+<h2>Installation Instructions</h2>
+<p>Clone this repository and open the project in Android Studio, XCode or VS Code:</p>
 <pre><code>flutter run</code></pre>
