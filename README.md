@@ -4,6 +4,7 @@
 <h2>A Closer Look</h2>
 <div class="row">
 <img  width="30%" height="30%" src="https://i.imgur.com/p2ZG3RX.png">
+&nbsp;
 <img  width="31%" height="31%" src="https://i.imgur.com/xMGweNL.png">
 &nbsp;
 &nbsp;
