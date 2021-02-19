@@ -1,4 +1,4 @@
-import 'package:Bankify/screens/core/home/homeScreen.dart';
+import 'package:Bankify/screens/core/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -44,19 +44,18 @@ class _BankSuccessfulState extends State<BankSuccessful> {
       bottomNavigationBar: GestureDetector(
         onTap: () {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()),
+              MaterialPageRoute(builder: (BuildContext context) => Home()),
               (Route<dynamic> route) => false);
         },
         child: Container(
           margin: EdgeInsets.all(15),
           height: 50,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(36, 97, 227, .8),
+            color: Color.fromRGBO(26, 68, 237, 1),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                  color: Color.fromRGBO(143, 148, 251, .3),
+                  color: Color.fromRGBO(26, 68, 237, .3),
                   blurRadius: 25.0,
                   offset: Offset(0, 7))
             ],

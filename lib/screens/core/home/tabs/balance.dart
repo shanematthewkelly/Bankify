@@ -36,6 +36,19 @@ class _BalanceFragmentState extends State<BalanceFragment> {
     return Colors.white;
   }
 
+  Color shadowColor(int selector) {
+    if (selector % 3 == 0) {
+      return Color.fromRGBO(26, 68, 237, .3);
+    }
+    if (selector % 3 == 1) {
+      return Color.fromRGBO(219, 0, 161, .3);
+    }
+    if (selector % 3 == 2) {
+      return Colors.red;
+    }
+    return Colors.white;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,7 +221,7 @@ class _BalanceFragmentState extends State<BalanceFragment> {
                             color: tileColor(index),
                             boxShadow: [
                               BoxShadow(
-                                  color: tileColor(index),
+                                  color: shadowColor(index),
                                   spreadRadius: 1,
                                   blurRadius: 4,
                                   offset: Offset(0, 0.5)),

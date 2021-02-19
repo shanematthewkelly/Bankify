@@ -126,11 +126,11 @@ class _ConnectBankState extends State<ConnectBank> {
           margin: EdgeInsets.all(15),
           height: 50,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(36, 97, 227, .8),
+            color: Color.fromRGBO(26, 68, 237, 1),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                  color: Color.fromRGBO(143, 148, 251, .3),
+                  color: Color.fromRGBO(26, 68, 237, .3),
                   blurRadius: 25.0,
                   offset: Offset(0, 7))
             ],

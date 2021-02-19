@@ -3,19 +3,19 @@ import 'package:Bankify/screens/auth/loginScreen.dart';
 import 'package:Bankify/screens/core/home/tabs/accounts.dart';
 import 'package:Bankify/screens/core/home/tabs/balance.dart';
 import 'package:Bankify/screens/core/home/tabs/linked.dart';
+import 'package:Bankify/screens/core/transactions/transactions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
 enum NavigationIcons { Home, Transactions, Vaults, Account, Support }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
   SharedPreferences sharedPreferences;
   NavigationIcons navigationIcons = NavigationIcons.Home;
@@ -143,24 +143,10 @@ class _HomeScreenState extends State<HomeScreen>
                                           )
                                         : Container(),
 
-                                    // // Transaction Screen Content
+                                    // Transaction Screen Content
                                     navigationIcons ==
                                             NavigationIcons.Transactions
-                                        ? Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                1,
-                                            child: Center(
-                                              child: Text(
-                                                "Transaction Screen",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    fontFamily: 'MetroBold'),
-                                              ),
-                                            ),
-                                          )
+                                        ? Transactions()
                                         : Container(),
 
                                     // Vaults Screen Content

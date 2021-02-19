@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 
 class AccountsDetail extends StatefulWidget {
   @override
@@ -127,7 +126,6 @@ class _AccountsDetailState extends State<AccountsDetail> {
     for (var accounts in responseData) {
       AccountInformation accountInfo = AccountInformation(accounts[infoData]);
 
-      print(infoData.length);
       infoData.add(accountInfo);
     }
 
