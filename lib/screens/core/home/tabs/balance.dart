@@ -17,21 +17,13 @@ class _BalanceFragmentState extends State<BalanceFragment> {
   void initState() {
     super.initState();
     getAccountBalance();
-    print(_isLoading);
+    getRecentTransaction();
   }
 
   int currentBalance = 0;
   String recentTransactionName = "";
   String recentTransactionDate = "";
   String recentTransactionPayment = "";
-
-  _BalanceFragmentState() {
-    getRecentTransaction().then((value) => setState(() {
-          recentTransactionName = value.transactionName;
-          recentTransactionDate = value.transactionDate;
-          recentTransactionPayment = value.transactionPayment.toString();
-        }));
-  }
 
   Color tileColor(int selector) {
     if (selector % 3 == 0) {
@@ -370,6 +362,29 @@ class _BalanceFragmentState extends State<BalanceFragment> {
     return accountObjects.fold<int>(
         0, (sum, account) => sum + account.getOverallCurrentBalance());
   }
+
+  // Recent Transactions
+  Future getRecentTransaction() async {
+    final String url =
+        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/transactions";
+
+    final response =
+        await http.get(url, headers: {"Accept": "Application/json"});
+
+    var transactionData = jsonDecode(response.body)["transactions"] as List;
+
+    List<TransactionInformation> infoData = transactionData
+        .map((result) => TransactionInformation.fromJson(result))
+        .toList();
+
+    if (response.statusCode == 200) {
+      setState(() {
+        recentTransactionName = infoData[0].transactionName;
+        recentTransactionDate = infoData[0].transactionDate;
+        recentTransactionPayment = infoData[0].transactionPayment.toString();
+      });
+    }
+  }
 }
 
 class Accounts {
@@ -388,23 +403,5 @@ class Accounts {
 
   int getOverallCurrentBalance() {
     return this.currentBalance;
-  }
-}
-
-// Recent Transactions
-Future getRecentTransaction() async {
-  final String url =
-      "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/transactions";
-
-  final response = await http.get(url, headers: {"Accept": "Application/json"});
-
-  var transactionData = jsonDecode(response.body)["transactions"] as List;
-
-  List<TransactionInformation> infoData = transactionData
-      .map((result) => TransactionInformation.fromJson(result))
-      .toList();
-
-  if (response.statusCode == 200) {
-    return infoData[0];
   }
 }
