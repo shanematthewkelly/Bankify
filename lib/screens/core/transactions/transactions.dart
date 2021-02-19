@@ -109,7 +109,7 @@ class _TransactionsState extends State<Transactions> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () async {
-                                    getTransactions();
+                                    // ToDo: Change Bank Function
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 18, top: 40),
@@ -178,7 +178,7 @@ class _TransactionsState extends State<Transactions> {
                       height: 680,
                       width: MediaQuery.of(context).size.height / 1,
                       margin: EdgeInsets.only(
-                          left: 15, right: 15, top: 16, bottom: 80),
+                          left: 15, right: 15, top: 16, bottom: 130),
                       padding: EdgeInsets.only(top: 25),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
@@ -222,8 +222,8 @@ class _TransactionsState extends State<Transactions> {
                                                       .transactionName !=
                                                   null
                                               ? Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 15),
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 40),
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -231,17 +231,33 @@ class _TransactionsState extends State<Transactions> {
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: 8),
-                                                        child: Image.asset(
-                                                            "assets/images/air.png",
-                                                            width: 60,
-                                                            height: 60,
-                                                            fit:
-                                                                BoxFit.contain),
+                                                                left: 12),
+                                                        child: Container(
+                                                          height: 42,
+                                                          width: 42,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    26,
+                                                                    68,
+                                                                    237,
+                                                                    1),
+                                                          ),
+                                                          child: Icon(
+                                                            Icons
+                                                                .repeat_rounded,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
                                                       ),
                                                       Container(
                                                         margin: EdgeInsets.only(
-                                                            top: 10),
+                                                            top: 2, left: 8),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -250,16 +266,14 @@ class _TransactionsState extends State<Transactions> {
                                                             Container(
                                                               width: 200,
                                                               child: Text(
-                                                                "To " +
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .transactionName,
+                                                                snapshot
+                                                                    .data[index]
+                                                                    .transactionName,
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black,
                                                                     fontSize:
-                                                                        14,
+                                                                        15,
                                                                     fontFamily:
                                                                         'MetroBold'),
                                                                 overflow:

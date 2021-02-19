@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:Bankify/models/balanceCards.dart';
+import 'package:Bankify/screens/core/transactions/transactions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,18 +11,27 @@ class BalanceFragment extends StatefulWidget {
 }
 
 class _BalanceFragmentState extends State<BalanceFragment> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
     getAccountBalance();
+    print(_isLoading);
   }
 
-// with AutomaticKeepAliveClientMixin
-//   @override
-//   bool get wantKeepAlive => true;
-
   int currentBalance = 0;
-  List<Accounts> accountObjects = new List();
+  String recentTransactionName = "";
+  String recentTransactionDate = "";
+  String recentTransactionPayment = "";
+
+  _BalanceFragmentState() {
+    getRecentTransaction().then((value) => setState(() {
+          recentTransactionName = value.transactionName;
+          recentTransactionDate = value.transactionDate;
+          recentTransactionPayment = value.transactionPayment.toString();
+        }));
+  }
 
   Color tileColor(int selector) {
     if (selector % 3 == 0) {
@@ -52,229 +62,290 @@ class _BalanceFragmentState extends State<BalanceFragment> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 250,
-              width: MediaQuery.of(context).size.height / 1,
-              margin: EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 24),
-              padding: EdgeInsets.only(top: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 0.5)),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 18),
-                                  child: Text(
-                                    "€" + "$currentBalance",
-                                    style: TextStyle(
-                                        fontSize: 34, fontFamily: 'MetroBold'),
-                                  ),
-                                ),
-                                Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 18),
-                                    child: Text(
-                                      "A V A I L A B L E",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                          height: 55,
-                          width: 55,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Image.asset("assets/images/currency.png",
-                                fit: BoxFit.contain),
-                          )),
-                    ],
-                  ),
-                  Container(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 15, left: 15, right: 15),
-                      child: Divider(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 18, right: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: <Widget>[
+          _isLoading != true
+              ? Container(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: <Widget>[
-                        Text(
-                          "Transactions",
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
+                        Container(
+                          height: 250,
+                          width: MediaQuery.of(context).size.height / 1,
+                          margin: EdgeInsets.only(
+                              left: 15, right: 15, top: 0, bottom: 24),
+                          padding: EdgeInsets.only(top: 25),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 0.5)),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 18),
+                                              child: Text(
+                                                "€" + "$currentBalance",
+                                                style: TextStyle(
+                                                    fontSize: 34,
+                                                    fontFamily: 'MetroBold'),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 18),
+                                                child: Text(
+                                                  "A V A I L A B L E",
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                      height: 55,
+                                      width: 55,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Image.asset(
+                                            "assets/images/currency.png",
+                                            fit: BoxFit.contain),
+                                      )),
+                                ],
+                              ),
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, left: 15, right: 15),
+                                  child: Divider(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 18, right: 18),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      "Transactions",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 14),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Transactions()),
+                                        );
+                                      },
+                                      child: Text(
+                                        "See More",
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(26, 68, 237, 1),
+                                            fontSize: 14),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 35, left: 14),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 42,
+                                      width: 42,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Color.fromRGBO(26, 68, 237, 1),
+                                      ),
+                                      child: Icon(
+                                        Icons.repeat_rounded,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 4, left: 8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "$recentTransactionName",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'MetroBold'),
+                                          ),
+                                          Text("$recentTransactionDate",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 13,
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        // Non-Responsive
+                                        margin: EdgeInsets.only(left: 150),
+                                        child: Text(
+                                            "- €" + "$recentTransactionPayment",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'MetroBold')))
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          "See More",
-                          style: TextStyle(
-                              color: Color.fromRGBO(26, 68, 237, 1),
-                              fontSize: 14),
+                        Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: EdgeInsets.only(top: 30, left: 20),
+                                child: Text(
+                                  "Recommended",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Container(
+                              height: 250,
+                              child: ListView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: balanceCardUI.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      width: 250,
+                                      margin: EdgeInsets.only(
+                                          left: 15,
+                                          right: 10,
+                                          top: 10,
+                                          bottom: 10),
+                                      padding:
+                                          EdgeInsets.only(top: 10, left: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: tileColor(index),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: shadowColor(index),
+                                              spreadRadius: 1,
+                                              blurRadius: 4,
+                                              offset: Offset(0, 0.5)),
+                                        ],
+                                      ),
+                                      child: Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                width: 130,
+                                                height: 130,
+                                                child: Image.asset(
+                                                    balanceCardUI[index].image,
+                                                    fit: BoxFit.contain),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Align(
+                                                alignment: Alignment.bottomLeft,
+                                                child: Container(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 20,
+                                                            left: 14),
+                                                    child: Text(
+                                                      balanceCardUI[index]
+                                                          .title,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'MetroBold',
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
                         )
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height * .50,
+                  margin: EdgeInsets.only(top: 50),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          height: 80,
-                          width: 80,
-                          margin: EdgeInsets.only(top: 10, left: 10),
-                          child: Image.asset("assets/images/air.png",
-                              fit: BoxFit.contain),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "To AirBnb",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontFamily: 'MetroBold'),
-                              ),
-                              Text("2x Night Stay at Burlington",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 13,
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 48),
-                            child: Text("- €83",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontFamily: 'MetroBold')))
+                        CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color.fromRGBO(26, 68, 237, 1)))
                       ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: EdgeInsets.only(top: 30, left: 20),
-                    child: Text(
-                      "Recommended",
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                      textAlign: TextAlign.left,
                     ),
                   ),
                 ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Container(
-                  height: 250,
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: balanceCardUI.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 250,
-                          margin: EdgeInsets.only(
-                              left: 15, right: 10, top: 10, bottom: 10),
-                          padding: EdgeInsets.only(top: 10, left: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: tileColor(index),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: shadowColor(index),
-                                  spreadRadius: 1,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 0.5)),
-                            ],
-                          ),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    width: 130,
-                                    height: 130,
-                                    child: Image.asset(
-                                        balanceCardUI[index].image,
-                                        fit: BoxFit.contain),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 20, left: 14),
-                                        child: Text(
-                                          balanceCardUI[index].title,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'MetroBold',
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ],
-            )
-          ],
-        ),
+        ],
       ),
     );
   }
 
   // Retrieves 'Available' & 'Current' balances
   Future getAccountBalance() async {
+    _isLoading = true;
+
     final String url =
         "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/balance";
 
@@ -289,6 +360,7 @@ class _BalanceFragmentState extends State<BalanceFragment> {
     if (response.statusCode == 200) {
       getCurrentFundsSum(accountObjects).then((value) => setState(() {
             currentBalance = value;
+            _isLoading = false;
           }));
     }
   }
@@ -316,5 +388,23 @@ class Accounts {
 
   int getOverallCurrentBalance() {
     return this.currentBalance;
+  }
+}
+
+// Recent Transactions
+Future getRecentTransaction() async {
+  final String url =
+      "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/transactions";
+
+  final response = await http.get(url, headers: {"Accept": "Application/json"});
+
+  var transactionData = jsonDecode(response.body)["transactions"] as List;
+
+  List<TransactionInformation> infoData = transactionData
+      .map((result) => TransactionInformation.fromJson(result))
+      .toList();
+
+  if (response.statusCode == 200) {
+    return infoData[0];
   }
 }
