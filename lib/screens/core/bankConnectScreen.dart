@@ -185,11 +185,7 @@ class _ConnectBankState extends State<ConnectBank> {
     var responseData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      setState(() {
-        sharedPreferences.setString(
-            "accessToken", responseData["access_token"]);
-        sharedPreferences.getString("accessToken");
-      });
+      sharedPreferences.setString("accessToken", responseData["access_token"]);
     }
   }
 

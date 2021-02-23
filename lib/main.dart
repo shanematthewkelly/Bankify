@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         //Application Global Theme
         primarySwatch: Colors.red,
       ),
-      home: ConnectBank(),
+      home: Preloader(),
       debugShowCheckedModeBanner: false,
     );
   }

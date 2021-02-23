@@ -17,7 +17,6 @@ class _BalanceFragmentState extends State<BalanceFragment> {
   void initState() {
     super.initState();
     getAccountBalance();
-    getRecentTransaction();
   }
 
   int currentBalance = 0;
@@ -336,8 +335,6 @@ class _BalanceFragmentState extends State<BalanceFragment> {
 
   // Retrieves 'Available' & 'Current' balances
   Future getAccountBalance() async {
-    _isLoading = true;
-
     final String url =
         "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/balance";
 
@@ -350,10 +347,12 @@ class _BalanceFragmentState extends State<BalanceFragment> {
         responseData.map((result) => Accounts.fromJson(result)).toList();
 
     if (response.statusCode == 200) {
-      getCurrentFundsSum(accountObjects).then((value) => setState(() {
-            currentBalance = value;
-            _isLoading = false;
-          }));
+      getCurrentFundsSum(accountObjects).then((value) => {
+            setState(() {
+              currentBalance = value;
+            }),
+            getRecentTransaction()
+          });
     }
   }
 
@@ -365,6 +364,7 @@ class _BalanceFragmentState extends State<BalanceFragment> {
 
   // Recent Transactions
   Future getRecentTransaction() async {
+    _isLoading = true;
     final String url =
         "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/transactions";
 
@@ -382,6 +382,7 @@ class _BalanceFragmentState extends State<BalanceFragment> {
         recentTransactionName = infoData[0].transactionName;
         recentTransactionDate = infoData[0].transactionDate;
         recentTransactionPayment = infoData[0].transactionPayment.toString();
+        _isLoading = false;
       });
     }
   }
