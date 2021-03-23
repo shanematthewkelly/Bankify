@@ -18,7 +18,7 @@ class PrimaryButton extends StatelessWidget {
       onTap: onPress,
       child: SizedBox(
         width: double.infinity,
-        height: screenHeightData(58),
+        height: screenHeightData(55),
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                  color: primaryShadow, blurRadius: 25.0, offset: Offset(0, 4))
+                  color: primaryShadow, blurRadius: 25.0, offset: Offset(0, 10))
             ],
           ),
           child: Text(

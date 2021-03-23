@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:Bankify/components/primary_button.dart';
 import 'package:Bankify/configs/globals.dart';
-import 'package:Bankify/screens/login/login.dart';
+import 'package:Bankify/screens/auth/auth.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:Bankify/screens/plaid/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +51,7 @@ class _ConnectBankState extends State<ConnectBank> {
       if (userToken == null) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
+          MaterialPageRoute(builder: (context) => AuthScreen()),
         );
       }
     });
@@ -136,32 +137,13 @@ class _ConnectBankState extends State<ConnectBank> {
           ],
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () async {
-          await initializePlaidLink();
-        },
-        child: Container(
-          margin: EdgeInsets.all(15),
-          height: 50,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(26, 68, 237, 1),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                  color: Color.fromRGBO(26, 68, 237, .3),
-                  blurRadius: 25.0,
-                  offset: Offset(0, 7))
-            ],
-          ),
-          child: Center(
-            child: Text(
-              "L I N K",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+        child: PrimaryButton(
+          onPress: () async {
+            await initializePlaidLink();
+          },
+          buttonText: "Link Bank",
         ),
       ),
     );

@@ -21,10 +21,9 @@ class Accounts extends StatelessWidget {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: Offset(0, 0.5)),
+                    color: Colors.grey[300],
+                    blurRadius: 15,
+                    offset: Offset(0, 0.10)),
               ],
             ),
             child: Column(

@@ -1,9 +1,9 @@
 import 'package:Bankify/components/appbar.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
+import 'package:Bankify/screens/auth/auth.dart';
 import 'package:Bankify/screens/home/tabs/accounts/accounts.dart';
 import 'package:Bankify/screens/home/tabs/balance/balance.dart';
 import 'package:Bankify/screens/home/tabs/linked/linked.dart';
-import 'package:Bankify/screens/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       if (sharedPreferences.getString("token") == null) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
+          MaterialPageRoute(builder: (context) => AuthScreen()),
         );
       }
     });

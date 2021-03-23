@@ -1,3 +1,4 @@
+import 'package:Bankify/screens/auth/auth.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:Bankify/screens/onboarding/loaderScreen.dart';
 import 'package:flutter/material.dart';
