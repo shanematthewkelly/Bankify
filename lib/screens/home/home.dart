@@ -1,6 +1,8 @@
 import 'package:Bankify/components/appbar.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
+import 'package:Bankify/screens/home/tabs/accounts/accounts.dart';
 import 'package:Bankify/screens/home/tabs/balance/balance.dart';
+import 'package:Bankify/screens/home/tabs/linked/linked.dart';
 import 'package:Bankify/screens/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +45,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       child: TabBarView(
         children: <Widget>[
           Balance(),
-          Center(child: Text("Tab #2")),
-          Center(child: Text("Tab #3")),
+          Accounts(),
+          Linked(),
         ],
       ),
     ),
@@ -56,7 +58,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   // Body
   @override
   Widget build(BuildContext context) {
-    ScreenSizing().init(context);
     return DefaultTabController(
       length: 3,
       initialIndex: 0,

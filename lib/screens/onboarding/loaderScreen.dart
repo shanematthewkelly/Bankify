@@ -75,7 +75,7 @@ class BankifyTitle extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Audiowide',
                   color: Colors.black,
-                  fontSize: 40,
+                  fontSize: screenWidthData(40),
                   letterSpacing: 1,
                 ),
               ),

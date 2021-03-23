@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
-import 'package:Bankify/models/balanceCards.dart';
+import 'package:Bankify/screens/transactions/transactions/components/transaction_info.dart';
 import 'package:Bankify/screens/transactions/transactions/transactions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'components/get_accounts.dart';
+import 'components/recommended.dart';
 
 class Balance extends StatefulWidget {
   @override
@@ -63,23 +64,21 @@ class _BalanceState extends State<Balance> {
             height: screenHeightData(25),
           ),
           Container(
-            height: screenHeightData(260),
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: screenWidthData(15)),
-            padding: EdgeInsets.only(top: 25),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 0,
-                    blurRadius: 7,
-                    offset: Offset(0, 0.5)),
-              ],
-            ),
-            child: balanceCard(context),
-          ),
+              height: screenHeightData(260),
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: screenWidthData(15)),
+              padding: EdgeInsets.only(top: 25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey[300],
+                      blurRadius: 25,
+                      offset: Offset(0, 10)),
+                ],
+              ),
+              child: balanceCard(context)),
           Container(
             height: screenHeightData(50),
           ),
@@ -99,7 +98,31 @@ class _BalanceState extends State<Balance> {
               ),
             ],
           ),
-          sliderCards(),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: <Widget>[
+                Recommended(
+                  images: "assets/images/recommended1.png",
+                  title: "View Transactions",
+                  desc: "Stay up to date",
+                  pressedRecommended: () {},
+                ),
+                Recommended(
+                  images: "assets/images/recommended2.jpg",
+                  title: "My Expenditure",
+                  desc: "Let's save today",
+                  pressedRecommended: () {},
+                ),
+                Recommended(
+                  images: "assets/images/recommended3.png",
+                  title: "Account Settings",
+                  desc: "A brief overview",
+                  pressedRecommended: () {},
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -244,79 +267,6 @@ class _BalanceState extends State<Balance> {
                           fontFamily: 'MetroBold')))
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Column sliderCards() {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: screenHeightData(250),
-          child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: balanceCardUI.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: screenWidthData(240),
-                  margin: EdgeInsets.only(
-                    left: screenWidthData(15),
-                    right: screenWidthData(11),
-                    top: screenHeightData(10),
-                    bottom: screenHeightData(11),
-                  ),
-                  padding: EdgeInsets.only(
-                      top: screenHeightData(10), left: screenWidthData(10)),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: tileColor(index),
-                    boxShadow: [
-                      BoxShadow(
-                          color: shadowColor(index),
-                          spreadRadius: 1,
-                          blurRadius: 4,
-                          offset: Offset(0, 0.5)),
-                    ],
-                  ),
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: screenWidthData(130),
-                            height: screenHeightData(130),
-                            child: Image.asset(balanceCardUI[index].image,
-                                fit: BoxFit.contain),
-                          ),
-                        ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: screenHeightData(20),
-                                    left: screenWidthData(14)),
-                                child: Text(
-                                  balanceCardUI[index].title,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'MetroBold',
-                                    fontSize: screenWidthData(20),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
         ),
       ],
     );
