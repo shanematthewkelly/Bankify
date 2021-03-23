@@ -1,4 +1,4 @@
-import 'package:Bankify/screens/core/accountsDetail.dart';
+import 'package:Bankify/screens/accounts/accountsDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Bankify/configs/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -111,8 +112,7 @@ class _AccountsDetailState extends State<AccountsDetail> {
 
   // Retrieves user's list of accounts
   Future getCurrentBanks() async {
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/accounts";
+    final String url = baseURL + "/api/accounts";
 
     final response =
         await http.get(url, headers: {"Accept": "Application/json"});

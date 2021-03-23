@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Bankify/configs/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -396,8 +397,7 @@ class _TransactionsState extends State<Transactions> {
   }
 
   Future getTransactions() async {
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/transactions";
+    final String url = baseURL + "/api/transactions";
 
     final response =
         await http.get(url, headers: {"Accept": "Application/json"});

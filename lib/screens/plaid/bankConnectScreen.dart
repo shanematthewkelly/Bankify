@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:Bankify/screens/auth/loginScreen.dart';
-import 'package:Bankify/screens/utils/bankSuccessful.dart';
+import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/screens/login/login.dart';
+import 'package:Bankify/screens/home/home.dart';
+import 'package:Bankify/screens/plaid/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -17,13 +19,29 @@ class ConnectBank extends StatefulWidget {
 class _ConnectBankState extends State<ConnectBank> {
   @override
   void initState() {
-    // isUserLoggedIn();
+    // hasLinkedBank();
+    isUserLoggedIn();
     checkPlaidForAcessToken();
     accountName();
     super.initState();
   }
 
-  // Token Check
+  // Check if bank has been linked prior
+  Future hasLinkedBank() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool hasLinked = (sharedPreferences.getBool('linked') ?? false);
+
+    if (hasLinked) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new Home()));
+    } else {
+      await sharedPreferences.setBool('linked', true);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new ConnectBank()));
+    }
+  }
+
+  // Token Check For App Auth
   Future isUserLoggedIn() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var userToken = sharedPreferences.getString("token");
@@ -155,9 +173,7 @@ class _ConnectBankState extends State<ConnectBank> {
     // Retrieve the currently logged in user's ID
     final String userId = sharedPreferences.getString("userId");
 
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/retrieve/users/" +
-            userId;
+    final String url = baseURL + "/retrieve/users/" + userId;
 
     final response =
         await http.get(url, headers: {"Accept": "Application/json"});
@@ -176,8 +192,7 @@ class _ConnectBankState extends State<ConnectBank> {
   Future checkPlaidForAcessToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/info";
+    final String url = baseURL + "/api/info";
 
     final response =
         await http.post(url, headers: {"Accept": "Application/json"});
@@ -191,8 +206,7 @@ class _ConnectBankState extends State<ConnectBank> {
 
   //Connect to Plaid Backend
   Future initializePlaidLink() async {
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/create_link_token";
+    final String url = baseURL + "/api/create_link_token";
 
     final response =
         await http.post(url, headers: {"Accept": "Application/json"});
@@ -218,8 +232,7 @@ class _ConnectBankState extends State<ConnectBank> {
   // Bank linked
   Future _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
-    final String url =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/api/set_access_token";
+    final String url = baseURL + "/api/set_access_token";
 
     // Our public token is sent in the POST request body in order to exchange it
     // For an access token on the server.

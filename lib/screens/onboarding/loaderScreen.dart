@@ -1,4 +1,5 @@
-import 'package:Bankify/screens/intro/introScreen.dart';
+import 'package:Bankify/configs/screen_sizing.dart';
+import 'package:Bankify/screens/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 
 class Preloader extends StatefulWidget {
@@ -24,7 +25,7 @@ class _PreloaderState extends State<Preloader>
         const Duration(milliseconds: 4000),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => IntroScreen()),
+              MaterialPageRoute(builder: (context) => OnBoarding()),
             ));
   }
 
@@ -36,6 +37,7 @@ class _PreloaderState extends State<Preloader>
   }
 
   Widget build(BuildContext context) {
+    ScreenSizing().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

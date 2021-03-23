@@ -1,30 +1,53 @@
-import 'dart:convert';
-import 'package:Bankify/screens/auth/registerScreen.dart';
-import 'package:Bankify/screens/core/bankConnectScreen.dart';
+import 'dart:developer';
+
+import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/models/user.dart';
+import 'package:Bankify/screens/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lottie/lottie.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+//Herw we are returning a Future and passing in the User Model class
+Future<UserModel> userRegister(String name, email, phone, password) async {
+  //Accessing the AWS Amplify endpoint
+  final String endpoint = baseURL + "/users/register";
+
+  //Attempting to retrieve the repsonse body
+  final response = await http.post(endpoint, body: {
+    "name": name,
+    "email": email,
+    "phone": phone,
+    "password": password
+  });
+
+  if (response.statusCode == 201) {
+    final responseBody = response.body;
+
+    return userModelFromJson(responseBody);
+  } else {
+    print("Issue contacting the server.");
+    return null;
+  }
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   //Key used to check any state changes
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
 
-  //Setup our preloader display
-  bool _isLoading = false;
-
   //Form Field Controllers
+  final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPhone = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
 
   //String variables
-  String username, password;
+  String name, email, phone, password;
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +61,26 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 350,
+                margin: EdgeInsets.only(top: 60),
+                height: 230,
                 child: Lottie.asset(
-                  'assets/lottie/login.json',
-                  fit: BoxFit.contain,
+                  'assets/lottie/register.json',
+                  fit: BoxFit.fill,
                 ),
+              ),
+              Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                  )
+                ],
               ),
               Padding(
                 padding: EdgeInsets.all(25),
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(left: 5, top: 1, bottom: 1),
+                      padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -62,7 +93,51 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.all(5),
+                            padding:
+                                EdgeInsets.only(left: 5, top: 1, bottom: 1),
+                            child: TextFormField(
+                              controller: controllerName,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter your name",
+                                hintStyle: TextStyle(color: Colors.grey[400]),
+                              ),
+                              //Validation - checks if the field value is empty
+                              validator: (fieldValue) {
+                                if (fieldValue.isEmpty) {
+                                  return 'Name is required';
+                                }
+                                //Check to determine if the input value is less than 4 characters long
+                                if (fieldValue.length < 3) {
+                                  return 'Name must be at least 3 characters';
+                                }
+                              },
+                              onSaved: (fieldValue) {
+                                //Setting the state
+                                name = fieldValue;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 16.0),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7)),
+                          ]),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding:
+                                EdgeInsets.only(left: 5, top: 1, bottom: 1),
                             child: TextFormField(
                               controller: controllerEmail,
                               decoration: InputDecoration(
@@ -82,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               onSaved: (fieldValue) {
                                 //Setting the state
-                                username = fieldValue;
+                                email = fieldValue;
                               },
                             ),
                           ),
@@ -90,7 +165,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsets.only(top: 16.0),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(143, 148, 251, .3),
+                                blurRadius: 25.0,
+                                offset: Offset(0, 7)),
+                          ]),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding:
+                                EdgeInsets.only(left: 5, top: 1, bottom: 1),
+                            child: TextFormField(
+                              controller: controllerPhone,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter your phone number",
+                                hintStyle: TextStyle(color: Colors.grey[400]),
+                              ),
+                              //Validation - checks if the field value is empty
+                              validator: (fieldValue) {
+                                if (fieldValue.isEmpty) {
+                                  return 'Phone is required';
+                                }
+                                //Check to determine if the input value is less than 4 characters long
+                                if (fieldValue.length < 5) {
+                                  return 'Phone must be at least 5 characters';
+                                }
+                              },
+                              onSaved: (fieldValue) {
+                                //Setting the state
+                                phone = fieldValue;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 16.0),
                       padding: EdgeInsets.only(left: 5, top: 1, bottom: 1),
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -137,61 +255,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    //Login
                     GestureDetector(
                       onTap: () async {
                         if (!validationKey.currentState.validate()) {
-                          return;
+                          return; //Form is vaild
                         }
                         //Save the current state in memory
                         validationKey.currentState.save();
 
-                        //Here we authenticate the user with our Express REST API
+                        //Here we show the text of each field
+                        final String name = controllerName.text;
                         final String email = controllerEmail.text;
+                        final String phone = controllerPhone.text;
                         final String password = controllerPassword.text;
 
-                        //Preloader active
-                        setState(() {
-                          _isLoading = true;
-                        });
-
                         //Calling the Future
-                        signIn(email, password);
-                      },
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(36, 97, 227, .8),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(143, 148, 251, .3),
-                                blurRadius: 25.0,
-                                offset: Offset(0, 7))
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            "L O G I N",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Register
-                    GestureDetector(
-                      onTap: () {
+                        final UserModel user =
+                            await userRegister(name, email, phone, password);
+
+                        //Navigate to the login screen
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
+                              builder: (context) => LoginScreen()),
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 20),
                         height: 50,
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(219, 0, 161, 1),
@@ -214,14 +303,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 60,
-                    ),
+                    SizedBox(height: 65),
                     GestureDetector(
                       onTap: () {
-                        //TODO: Forgot Password Handler
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
                       },
-                      child: Text("Forgotten password?",
+                      child: Text("Already have an account?",
                           style: TextStyle(color: Colors.grey[400])),
                     ),
                   ],
@@ -232,92 +323,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  Future signIn(String email, String password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    //Accessing the AWS Amplify endpoint
-    final String endpoint =
-        "https://6q8uxgokqf.execute-api.us-east-1.amazonaws.com/dev/users/login";
-
-    //Attempting to retrieve the repsonse body
-    final response = await http.post(endpoint,
-        headers: {"Accept": "Application/json"},
-        body: {"email": email, "password": password});
-
-    var responseData = jsonDecode(response.body);
-
-    //Setting the user token & ID
-    sharedPreferences.setString("token", responseData["token"]);
-    sharedPreferences.setString("userId", responseData["id"]);
-
-    //Correct user credentials
-    if (response.statusCode == 200) {
-      //Load new route
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => ConnectBank()),
-          (Route<dynamic> route) => false);
-
-      return responseData;
-    } else {
-      //User has entered the wrong information, call this function to display a modal
-      incorrectUserDetails();
-      return null;
-    }
-  }
-
-  void incorrectUserDetails() {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext buildContext) {
-          //here we return the view
-          return Container(
-            //Configuring the view port of the device's screen
-            height: MediaQuery.of(context).size.height * .45,
-            child: Padding(
-              padding: EdgeInsets.only(right: 17, top: 17),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          //Modal 'Close' Button
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(CupertinoIcons.arrow_down_circle_fill,
-                            color: Color.fromRGBO(36, 97, 227, .8), size: 30),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 27, top: 30),
-                          child: Text(
-                              "The details you have entered for your account seem to be incorrect, sorry!",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 200,
-                    padding: EdgeInsets.only(top: 20),
-                    child: Lottie.asset(
-                      'assets/lottie/incorrect.json',
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }
