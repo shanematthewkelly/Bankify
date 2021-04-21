@@ -1,13 +1,19 @@
+import 'package:Bankify/models/slides.dart';
+import 'package:Bankify/screens/onboarding/components/slides.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'components/body.dart';
+class OnBoarding extends StatefulWidget {
+  @override
+  _OnBoardingState createState() => _OnBoardingState();
+}
 
-class OnBoarding extends StatelessWidget {
+class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: OnBoardingBody(),
+      body: OnBoardingBody(slides: slides),
     );
   }
 }

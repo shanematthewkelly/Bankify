@@ -399,10 +399,10 @@ class _TransactionsState extends State<Transactions> {
   }
 
   Future getTransactions() async {
-    final String url = baseURL + "/api/transactions";
+    final Uri endpoint = Uri.parse(baseURL + "/api/transactions");
 
     final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
+        await http.get(endpoint, headers: {"Accept": "Application/json"});
 
     var transactionData = jsonDecode(response.body)["transactions"] as List;
 

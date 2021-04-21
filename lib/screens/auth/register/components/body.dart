@@ -277,7 +277,7 @@ class _RegisterBodyState extends State<RegisterBody> {
       );
 
   Future<UserModel> userRegister(String name, email, phone, password) async {
-    final String endpoint = baseURL + "/users/register";
+    final Uri endpoint = Uri.parse(baseURL + "/users/register");
 
     final response = await http.post(endpoint, body: {
       "name": name,

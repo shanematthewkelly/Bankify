@@ -228,7 +228,7 @@ class _LoginBodyState extends State<LoginBody> {
   Future signIn(String email, String password) async {
     sharedPreferences = await SharedPreferences.getInstance();
 
-    final String endpoint = baseURL + "/users/login";
+    final Uri endpoint = Uri.parse(baseURL + "/users/login");
 
     final response = await http.post(endpoint,
         headers: {"Accept": "Application/json"},

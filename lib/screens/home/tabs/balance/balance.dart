@@ -274,10 +274,10 @@ class _BalanceState extends State<Balance> {
 
   // Retrieves 'Available' & 'Current' balances
   Future getAccountBalance() async {
-    final String url = baseURL + "/api/balance";
+    final Uri endpoint = Uri.parse(baseURL + "/api/balance");
 
     final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
+        await http.get(endpoint, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body)['accounts'] as List;
 
@@ -303,10 +303,10 @@ class _BalanceState extends State<Balance> {
   // Recent Transactions
   Future getRecentTransaction() async {
     _isLoading = true;
-    final String url = baseURL + "/api/transactions";
+    final Uri endpoint = Uri.parse(baseURL + "/api/transactions");
 
     final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
+        await http.get(endpoint, headers: {"Accept": "Application/json"});
 
     var transactionData = jsonDecode(response.body)["transactions"] as List;
 

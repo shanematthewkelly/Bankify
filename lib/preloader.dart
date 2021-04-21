@@ -20,9 +20,8 @@ class _PreloaderState extends State<Preloader>
     _animController.forward();
     super.initState();
 
-    // Rendering the view for only 5 seconds
     new Future.delayed(
-        const Duration(milliseconds: 4000),
+        const Duration(milliseconds: 3000),
         () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => OnBoarding()),

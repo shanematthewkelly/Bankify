@@ -155,10 +155,10 @@ class _ConnectBankState extends State<ConnectBank> {
     // Retrieve the currently logged in user's ID
     final String userId = sharedPreferences.getString("userId");
 
-    final String url = baseURL + "/retrieve/users/" + userId;
+    final Uri endpoint = Uri.parse(baseURL + "/retrieve/users/" + userId);
 
     final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
+        await http.get(endpoint, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body);
 
@@ -174,10 +174,10 @@ class _ConnectBankState extends State<ConnectBank> {
   Future checkPlaidForAcessToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    final String url = baseURL + "/api/info";
+    final Uri endpoint = Uri.parse(baseURL + "/api/info");
 
     final response =
-        await http.post(url, headers: {"Accept": "Application/json"});
+        await http.post(endpoint, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body);
 
@@ -188,16 +188,16 @@ class _ConnectBankState extends State<ConnectBank> {
 
   //Connect to Plaid Backend
   Future initializePlaidLink() async {
-    final String url = baseURL + "/api/create_link_token";
+    final Uri endpoint = Uri.parse(baseURL + "/api/create_link_token");
 
     final response =
-        await http.post(url, headers: {"Accept": "Application/json"});
+        await http.post(endpoint, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      LinkConfiguration configuration = LinkConfiguration(
-        linkToken: responseData['link_token'],
+      LinkConfiguration configuration = new LinkTokenConfiguration(
+        token: responseData['link_token'],
       );
 
       PlaidLink _plaidLink = PlaidLink(
@@ -214,11 +214,11 @@ class _ConnectBankState extends State<ConnectBank> {
   // Bank linked
   Future _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
-    final String url = baseURL + "/api/set_access_token";
+    final Uri endpoint = Uri.parse(baseURL + "/api/set_access_token");
 
     // Our public token is sent in the POST request body in order to exchange it
     // For an access token on the server.
-    final response = await http.post(url,
+    final response = await http.post(endpoint,
         headers: {"Accept": "Application/json"},
         body: {"public_token": publicToken});
 

@@ -112,10 +112,10 @@ class _AccountsDetailState extends State<AccountsDetail> {
 
   // Retrieves user's list of accounts
   Future getCurrentBanks() async {
-    final String url = baseURL + "/api/accounts";
+    final Uri endpoint = Uri.parse(baseURL + "/api/accounts");
 
     final response =
-        await http.get(url, headers: {"Accept": "Application/json"});
+        await http.get(endpoint, headers: {"Accept": "Application/json"});
 
     var responseData = jsonDecode(response.body)['accounts'] as List;
 
