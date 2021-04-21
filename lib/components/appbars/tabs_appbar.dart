@@ -2,14 +2,14 @@ import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DynamicAppbar extends StatelessWidget implements PreferredSizeWidget {
+class TabsAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor = Colors.transparent;
   final List<Widget> widgets;
   final Text title;
   final Padding profile;
   final PreferredSize bottomTabs;
 
-  const DynamicAppbar(
+  const TabsAppbar(
       {Key key, this.widgets, this.title, this.profile, this.bottomTabs})
       : super(key: key);
 

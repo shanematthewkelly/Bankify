@@ -24,7 +24,7 @@ class OnBoardingData extends StatelessWidget {
         ),
         Spacer(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidthData(15)),
+          padding: EdgeInsets.symmetric(horizontal: screenWidthData(20)),
           child: Text(
             heading,
             textAlign: TextAlign.start,
@@ -37,7 +37,7 @@ class OnBoardingData extends StatelessWidget {
         ),
         Container(height: screenHeightData(20)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidthData(15)),
+          padding: EdgeInsets.symmetric(horizontal: screenWidthData(20)),
           child: Text(
             description,
             textAlign: TextAlign.start,

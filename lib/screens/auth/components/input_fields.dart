@@ -1,3 +1,4 @@
+import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:flutter/material.dart';
 
@@ -25,26 +26,30 @@ class AuthFields extends StatelessWidget {
           height: screenHeightData(20),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: screenWidthData(20)),
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              width: 2,
-              color: Colors.black.withOpacity(0.1),
-            ),
-          ),
           child: TextFormField(
             controller: controller,
             validator: validator,
             onSaved: onSaved,
-            // obscureText: hideText,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.black54,
+              fontSize: screenWidthData(16),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MetroBold',
+            ),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.white54),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
+              focusedBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: primaryColor),
+              ),
+              focusedErrorBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.red),
+              ),
+              hintStyle: TextStyle(
+                color: Colors.black54,
+                fontSize: screenWidthData(16),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'MetroBold',
+              ),
             ),
           ),
         ),

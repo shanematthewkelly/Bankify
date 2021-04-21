@@ -1,6 +1,6 @@
-import 'package:Bankify/components/appbar.dart';
+import 'package:Bankify/components/appbars/tabs_appbar.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
-import 'package:Bankify/screens/auth/auth.dart';
+import 'package:Bankify/screens/auth/login/login.dart';
 import 'package:Bankify/screens/home/tabs/accounts/accounts.dart';
 import 'package:Bankify/screens/home/tabs/balance/balance.dart';
 import 'package:Bankify/screens/home/tabs/linked/linked.dart';
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       if (sharedPreferences.getString("token") == null) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AuthScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       }
     });
@@ -128,8 +128,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   // Custom Appbar - Home
-  DynamicAppbar buildAppBar() {
-    return DynamicAppbar(
+  TabsAppbar buildAppBar() {
+    return TabsAppbar(
       profile: Padding(
         padding: EdgeInsets.only(left: screenWidthData(15)),
         child: Image.asset(

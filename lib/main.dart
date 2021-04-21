@@ -1,4 +1,6 @@
-import 'package:Bankify/screens/auth/auth.dart';
+import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/screens/auth/login/login.dart';
+import 'package:Bankify/screens/auth/register/register.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:Bankify/screens/onboarding/loaderScreen.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bankify',
       theme: ThemeData(
-        //Application Global Theme
-        primarySwatch: Colors.red,
-      ),
+          //Application Global Theme
+          primarySwatch: Colors.blue),
       home: Preloader(),
       debugShowCheckedModeBanner: false,
     );

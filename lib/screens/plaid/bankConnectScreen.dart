@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:Bankify/components/primary_button.dart';
+import 'package:Bankify/components/buttons/primary_button.dart';
 import 'package:Bankify/configs/globals.dart';
-import 'package:Bankify/screens/auth/auth.dart';
+import 'package:Bankify/screens/auth/login/login.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:Bankify/screens/plaid/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,7 +51,7 @@ class _ConnectBankState extends State<ConnectBank> {
       if (userToken == null) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AuthScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       }
     });

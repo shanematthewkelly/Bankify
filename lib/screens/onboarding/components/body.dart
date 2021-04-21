@@ -1,7 +1,8 @@
-import 'package:Bankify/components/primary_button.dart';
+import 'package:Bankify/components/buttons/primary_button.dart';
 import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
-import 'package:Bankify/screens/auth/auth.dart';
+import 'package:Bankify/screens/auth/login/login.dart';
+import 'package:Bankify/screens/auth/register/register.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
 
@@ -76,7 +77,8 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
                       onPress: () async {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AuthScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
                         );
                       },
                     ),
@@ -85,7 +87,8 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
                       onTap: () async {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AuthScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
                         );
                       },
                       child: RichText(

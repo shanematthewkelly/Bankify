@@ -1,7 +1,6 @@
 import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:flutter/material.dart';
-
-import '../configs/screen_sizing.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -16,9 +15,9 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPress,
-      child: SizedBox(
+      child: Container(
         width: double.infinity,
-        height: screenHeightData(55),
+        height: 55,
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -26,7 +25,10 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                  color: primaryShadow, blurRadius: 25.0, offset: Offset(0, 10))
+                color: primaryShadow,
+                blurRadius: 25.0,
+                offset: Offset(0, 5),
+              )
             ],
           ),
           child: Text(

@@ -1,4 +1,3 @@
-import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:flutter/material.dart';
 
