@@ -8,10 +8,9 @@ class Recommended extends StatelessWidget {
     Key key,
     this.images,
     this.title,
-    this.desc,
     this.pressedRecommended,
   }) : super(key: key);
-  final String images, title, desc;
+  final String images, title;
   final Function pressedRecommended;
 
   @override
@@ -29,7 +28,7 @@ class Recommended extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: screenHeightData(160),
+              height: screenHeightData(180),
               width: screenWidthData(270),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -52,9 +51,9 @@ class Recommended extends StatelessWidget {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 25,
-                      color: Colors.grey[300],
+                      offset: shadowOffset,
+                      blurRadius: shadowBlur,
+                      color: shadowColor,
                     )
                   ],
                   borderRadius: BorderRadius.only(
@@ -67,18 +66,7 @@ class Recommended extends StatelessWidget {
                     "$title",
                     style: TextStyle(
                       fontFamily: 'MetroBold',
-                      fontSize: screenWidthData(19),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 7),
-                    child: Text(
-                      "$desc".toUpperCase(),
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: screenWidthData(12),
-                      ),
+                      fontSize: screenWidthData(16),
                     ),
                   ),
                 ],

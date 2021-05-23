@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:Bankify/components/buttons/primary_button.dart';
 import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:Bankify/screens/auth/login/login.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:Bankify/screens/plaid/bankSuccessful.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'components/requirements.dart';
 
 class ConnectBank extends StatefulWidget {
   @override
@@ -18,18 +20,19 @@ class ConnectBank extends StatefulWidget {
 }
 
 class _ConnectBankState extends State<ConnectBank> {
+  SharedPreferences sharedPreferences;
+
   @override
   void initState() {
     // hasLinkedBank();
     isUserLoggedIn();
-    checkPlaidForAcessToken();
     accountName();
     super.initState();
   }
 
   // Check if bank has been linked prior
   Future hasLinkedBank() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
     bool hasLinked = (sharedPreferences.getBool('linked') ?? false);
 
     if (hasLinked) {
@@ -44,7 +47,7 @@ class _ConnectBankState extends State<ConnectBank> {
 
   // Token Check For App Auth
   Future isUserLoggedIn() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
     var userToken = sharedPreferences.getString("token");
 
     setState(() {
@@ -72,85 +75,120 @@ class _ConnectBankState extends State<ConnectBank> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            ClipPath(
-              clipper: TopBackgroundClipper(),
-              child: Container(
-                height: 280,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [Color(0xFF3383CD), Color(0xFF11249F)]),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 90, left: 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Welcome, ' + username + '.',
-                        style: TextStyle(
-                            fontSize: 30,
+        child: body(),
+      ),
+      bottomNavigationBar: bottomButton(),
+    );
+  }
+
+  Column body() {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidthData(20),
+                vertical: screenHeightData(60),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: screenHeightData(100),
+                    width: screenWidthData(100),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(80),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "SK",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: screenWidthData(35),
                             fontFamily: 'MetroBold',
-                            color: Colors.white),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeightData(20),
+                    ),
+                    child: Text(
+                      'Welcome, ' + username + '.',
+                      style: TextStyle(
+                          fontSize: screenWidthData(36),
+                          fontFamily: 'MetroBold',
+                          color: Colors.black),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Text(
+                    "👋",
+                    style: TextStyle(
+                      fontSize: screenWidthData(35),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: screenHeightData(50),
+                      bottom: screenHeightData(30),
+                    ),
+                    child: Text(
+                        "We will need to request the following permissions from your bank.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: screenWidthData(16),
+                            fontFamily: 'MetroMedium',
+                            height: 1.3)),
+                  ),
+                  Requirements(
+                    icon: CupertinoIcons.person,
+                    title: "Account Details",
+                  ),
+                  Requirements(
+                    icon: CupertinoIcons.cart,
+                    title: "Transactions",
+                  ),
+                  Requirements(
+                    icon: CupertinoIcons.checkmark_seal,
+                    title: "Account Features",
+                  ),
+                ],
               ),
             ),
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 40),
-                  height: 180,
-                  child: Lottie.asset(
-                    'assets/lottie/connect.json',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Text(
-                    'Link with us.',
-                    style: TextStyle(
-                        fontSize: 26,
-                        fontFamily: 'MetroBold',
-                        color: Colors.black),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: Text(
-                    'We will ask you to link your primary bank account now. Not to worry, you can always link more later.',
-                    style: TextStyle(fontSize: 16, color: Colors.black26),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
+      ],
+    );
+  }
+
+  Container bottomButton() {
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: screenHeightData(25),
+        left: screenWidthData(15),
+        right: screenWidthData(15),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
-        child: PrimaryButton(
-          onPress: () async {
-            await initializePlaidLink();
-          },
-          buttonText: "Link Bank",
-        ),
+      child: PrimaryButton(
+        onPress: () {
+          initializePlaidLink();
+        },
+        buttonText: "Link my bank",
       ),
     );
   }
 
   Future accountName() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
 
     // Retrieve the currently logged in user's ID
     final String userId = sharedPreferences.getString("userId");
@@ -169,24 +207,7 @@ class _ConnectBankState extends State<ConnectBank> {
     }
   }
 
-  // This will check whether the user has an access token stored in local memory
-  // Will remove in future update (Testing purposes)
-  Future checkPlaidForAcessToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    final Uri endpoint = Uri.parse(baseURL + "/api/info");
-
-    final response =
-        await http.post(endpoint, headers: {"Accept": "Application/json"});
-
-    var responseData = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      sharedPreferences.setString("accessToken", responseData["access_token"]);
-    }
-  }
-
-  //Connect to Plaid Backend
+  // Connect to Plaid Backend
   Future initializePlaidLink() async {
     final Uri endpoint = Uri.parse(baseURL + "/api/create_link_token");
 
@@ -207,14 +228,17 @@ class _ConnectBankState extends State<ConnectBank> {
 
       _plaidLink.open();
     } else {
-      // TODO: Handle the error accordingly
+      return;
     }
   }
 
   // Bank linked
   Future _onSuccessCallback(
-      String publicToken, LinkSuccessMetadata metadata) async {
+    String publicToken,
+    LinkSuccessMetadata metadata,
+  ) async {
     final Uri endpoint = Uri.parse(baseURL + "/api/set_access_token");
+    sharedPreferences = await SharedPreferences.getInstance();
 
     // Our public token is sent in the POST request body in order to exchange it
     // For an access token on the server.
@@ -222,29 +246,14 @@ class _ConnectBankState extends State<ConnectBank> {
         headers: {"Accept": "Application/json"},
         body: {"public_token": publicToken});
 
+    var responseData = jsonDecode(response.body);
+    sharedPreferences.setString("access_token", responseData["access_token"]);
+
     if (response.statusCode == 200) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (BuildContext context) => BankSuccessful()),
           (Route<dynamic> route) => false);
     }
-  }
-}
-
-class TopBackgroundClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var customPath = Path();
-    customPath.lineTo(0.0, size.height - 80);
-    customPath.lineTo(size.width, size.height);
-    customPath.lineTo(size.width, 0.0);
-    customPath.close();
-
-    return customPath;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
   }
 }

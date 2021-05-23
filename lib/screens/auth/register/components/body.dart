@@ -183,6 +183,7 @@ class _RegisterBodyState extends State<RegisterBody> {
     return AuthFields(
       hint: "Password",
       controller: controllerPassword,
+      hideText: true,
       validator: (fieldValue) {
         if (fieldValue.isEmpty) {
           return 'Password is required';

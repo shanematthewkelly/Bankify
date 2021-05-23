@@ -9,13 +9,13 @@ class AuthFields extends StatelessWidget {
     this.controller,
     this.validator,
     this.onSaved,
-    // this.hideText,
+    this.hideText,
   }) : super(key: key);
 
   final String hint;
   final Function validator, onSaved;
   final TextEditingController controller;
-  // final bool hideText;
+  final bool hideText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class AuthFields extends StatelessWidget {
           child: TextFormField(
             controller: controller,
             validator: validator,
+            obscureText: hideText == true ? hideText : false,
             onSaved: onSaved,
             style: TextStyle(
               color: Colors.black54,

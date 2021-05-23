@@ -1,4 +1,7 @@
 import 'package:Bankify/preloader.dart';
+import 'package:Bankify/screens/home/home.dart';
+import 'package:Bankify/screens/plaid/bankSuccessful.dart';
+import 'package:Bankify/screens/profile/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,7 +12,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);

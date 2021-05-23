@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
+import 'package:Bankify/screens/profile/body.dart';
 import 'package:Bankify/screens/transactions/transactions/components/transaction_info.dart';
 import 'package:Bankify/screens/transactions/transactions/transactions.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,107 +24,87 @@ class _BalanceState extends State<Balance> {
     getAccountBalance();
   }
 
-  Color tileColor(int selector) {
-    if (selector % 3 == 0) {
-      return Color.fromRGBO(26, 68, 237, 1);
-    }
-    if (selector % 3 == 1) {
-      return Color.fromRGBO(219, 0, 161, 1);
-    }
-    if (selector % 3 == 2) {
-      return Colors.red;
-    }
-    return Colors.white;
-  }
-
-  Color shadowColor(int selector) {
-    if (selector % 3 == 0) {
-      return Color.fromRGBO(26, 68, 237, .3);
-    }
-    if (selector % 3 == 1) {
-      return Color.fromRGBO(219, 0, 161, .3);
-    }
-    if (selector % 3 == 2) {
-      return Colors.red;
-    }
-    return Colors.white;
-  }
-
   int currentBalance = 0;
-  bool _isLoading = false;
   String recentTransactionName = "";
   String recentTransactionDate = "";
   String recentTransactionPayment = "";
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: screenHeightData(25),
-          ),
-          Container(
-              height: screenHeightData(260),
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: screenWidthData(15)),
-              padding: EdgeInsets.only(top: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey[300],
-                      blurRadius: 25,
-                      offset: Offset(0, 10)),
-                ],
-              ),
-              child: balanceCard(context)),
-          Container(
-            height: screenHeightData(50),
-          ),
-          Column(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: EdgeInsets.only(left: screenWidthData(25)),
-                  child: Text(
-                    "Recommended",
-                    style: TextStyle(
-                        color: Colors.grey, fontSize: screenWidthData(16)),
-                    textAlign: TextAlign.left,
-                  ),
+    return Scaffold(
+      backgroundColor: canvasColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: screenHeightData(25),
+            ),
+            Container(
+                height: screenHeightData(260),
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(
+                  horizontal: screenWidthData(15),
                 ),
-              ),
-            ],
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+                padding: EdgeInsets.only(top: 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: shadowColor,
+                        blurRadius: shadowBlur,
+                        offset: shadowOffset),
+                  ],
+                ),
+                child: balanceCard(context)),
+            Container(
+              height: screenHeightData(50),
+            ),
+            Column(
               children: <Widget>[
-                Recommended(
-                  images: "assets/images/recommended1.png",
-                  title: "View Transactions",
-                  desc: "Stay up to date",
-                  pressedRecommended: () {},
-                ),
-                Recommended(
-                  images: "assets/images/recommended2.jpg",
-                  title: "My Expenditure",
-                  desc: "Let's save today",
-                  pressedRecommended: () {},
-                ),
-                Recommended(
-                  images: "assets/images/recommended3.png",
-                  title: "Account Settings",
-                  desc: "A brief overview",
-                  pressedRecommended: () {},
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: EdgeInsets.only(left: screenWidthData(25)),
+                    child: Text(
+                      "What is there to do?",
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: screenWidthData(16)),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  Recommended(
+                    images: "assets/images/recommended3.png",
+                    title: "Account Settings",
+                    pressedRecommended: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfileBody()),
+                      );
+                    },
+                  ),
+                  Recommended(
+                    images: "assets/images/recommended1.png",
+                    title: "View Transactions",
+                    pressedRecommended: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Transactions()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -226,15 +207,18 @@ class _BalanceState extends State<Balance> {
                 width: screenWidthData(40),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Color.fromRGBO(26, 68, 237, 1),
+                  color: secondaryColor,
                 ),
                 child: Icon(
-                  Icons.repeat_rounded,
+                  CupertinoIcons.checkmark_seal,
                   color: Colors.white,
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 8),
+                width: 150,
+                margin: EdgeInsets.only(
+                  left: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -247,7 +231,7 @@ class _BalanceState extends State<Balance> {
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      softWrap: false,
+                      softWrap: true,
                     ),
                     Text("$recentTransactionDate",
                         style: TextStyle(
@@ -259,7 +243,7 @@ class _BalanceState extends State<Balance> {
               ),
               Container(
                   // Non-Responsive
-                  margin: EdgeInsets.only(left: 150),
+                  margin: EdgeInsets.only(left: 70),
                   child: Text("- €" + "$recentTransactionPayment",
                       style: TextStyle(
                           color: Colors.black,
@@ -302,7 +286,6 @@ class _BalanceState extends State<Balance> {
 
   // Recent Transactions
   Future getRecentTransaction() async {
-    _isLoading = true;
     final Uri endpoint = Uri.parse(baseURL + "/api/transactions");
 
     final response =
@@ -319,7 +302,6 @@ class _BalanceState extends State<Balance> {
         recentTransactionName = infoData[0].transactionName;
         recentTransactionDate = infoData[0].transactionDate;
         recentTransactionPayment = infoData[0].transactionPayment.toString();
-        _isLoading = false;
       });
     }
   }

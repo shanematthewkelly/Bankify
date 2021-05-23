@@ -1,7 +1,6 @@
 import 'package:Bankify/models/slides.dart';
 import 'package:Bankify/screens/onboarding/components/slides.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class OnBoarding extends StatefulWidget {
   @override

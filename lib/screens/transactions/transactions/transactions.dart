@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:Bankify/components/appbars/appbar.dart';
+import 'package:Bankify/components/widgets/appbar_icon_widget.dart';
 import 'package:Bankify/configs/globals.dart';
+import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -14,384 +17,225 @@ class Transactions extends StatefulWidget {
 class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: canvasColor,
+        appBar: buildAppbar(),
+        body: transactionUI(context));
+  }
+
+  Container transactionUI(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1,
-      child: Scaffold(
-        body: Container(
-          child: Stack(
+      width: double.infinity,
+      child: ListView(
+        children: <Widget>[
+          Column(
             children: <Widget>[
-              Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height / 1,
-                width: MediaQuery.of(context).size.width / 1,
-                child: ListView(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 40, left: 23),
-                        color: Colors.transparent,
-                        child: Text(
-                          "Transactions.",
-                          style:
-                              TextStyle(fontSize: 30, fontFamily: 'MetroBold'),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.height / 1,
-                      margin: EdgeInsets.only(left: 15, right: 15, top: 40),
-                      padding: EdgeInsets.only(top: 35),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 7,
-                              offset: Offset(0, 0.5)),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 18),
-                                          child: Text(
-                                            "€1850",
-                                            style: TextStyle(
-                                                fontSize: 34,
-                                                fontFamily: 'MetroBold'),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20, top: 4),
-                                            child: Text(
-                                              "Royal Bank of Scotland",
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      191, 191, 191, 1),
-                                                  fontSize: 14),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                  height: 58,
-                                  width: 58,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 15, bottom: 5),
-                                    child: Image.asset(
-                                        "assets/images/currency.png",
-                                        fit: BoxFit.contain),
-                                  )),
-                            ],
-                          ),
-                          Container(
-                            child: Column(
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () async {
-                                    // ToDo: Change Bank Function
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 18, top: 40),
-                                    height: 42,
-                                    width: 140,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(26, 68, 237, 1),
-                                      borderRadius: BorderRadius.circular(5),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color:
-                                                Color.fromRGBO(26, 68, 237, .3),
-                                            blurRadius: 25.0,
-                                            offset: Offset(0, 7))
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, bottom: 3),
-                                          child: Icon(
-                                            CupertinoIcons.info_circle,
-                                            color: Colors.white,
-                                            size: 28,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 6, top: 2),
-                                          child: Text(
-                                            "Change",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontFamily: 'MetroBold'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            padding: EdgeInsets.only(top: 50, left: 25),
-                            child: Text(
-                              "All Transactions",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      height: 680,
-                      width: MediaQuery.of(context).size.height / 1,
-                      margin: EdgeInsets.only(
-                          left: 15, right: 15, top: 16, bottom: 130),
-                      padding: EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 7,
-                              offset: Offset(0, 0.5)),
-                        ],
-                      ),
-                      child: FutureBuilder(
-                          future: getTransactions(),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.data == null) {
-                              return Container(
-                                margin: EdgeInsets.only(top: 50),
-                                child: Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation<
-                                                  Color>(
-                                              Color.fromRGBO(26, 68, 237, 1)))
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          snapshot.data[index]
-                                                      .transactionName !=
-                                                  null
-                                              ? Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 40),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 12),
-                                                        child: Container(
-                                                          height: 42,
-                                                          width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    26,
-                                                                    68,
-                                                                    237,
-                                                                    1),
-                                                          ),
-                                                          child: Icon(
-                                                            Icons
-                                                                .repeat_rounded,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 2, left: 8),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width: 200,
-                                                              child: Text(
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .transactionName,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontFamily:
-                                                                        'MetroBold'),
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 1,
-                                                                softWrap: false,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .transactionDate,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize: 13,
-                                                                ))
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: 38),
-                                                          child: Text(
-                                                              "- €" +
-                                                                  snapshot
-                                                                      .data[
-                                                                          index]
-                                                                      .transactionPayment
-                                                                      .toString(),
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      'MetroBold')))
-                                                    ],
-                                                  ),
-                                                )
-                                              : Container()
-                                        ]);
-                                  });
-                            }
-                          }),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Positioned(
-              left: 42,
-              bottom: 60,
-              child: GestureDetector(
-                onTap: () async {
-                  filterTransactionsModal();
-                },
+              Align(
+                alignment: Alignment.centerLeft,
                 child: Container(
-                  height: 40,
-                  width: 140,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(0, 0.8)),
-                    ],
+                  padding: EdgeInsets.only(
+                    top: screenHeightData(30),
+                    left: screenWidthData(25),
                   ),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/filter.png",
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.contain,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 8),
-                          child: Text("Manage",
-                              style: TextStyle(
-                                  fontSize: 16, fontFamily: 'MetroBold')),
-                        )
-                      ],
+                  child: GestureDetector(
+                    onTap: () => filterTransactionsModal(),
+                    child: Text(
+                      "All Transactions",
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      textAlign: TextAlign.left,
                     ),
                   ),
                 ),
               ),
+            ],
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height / 1.45,
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 16,
             ),
-          ],
-        ),
+            padding: EdgeInsets.only(top: 25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: shadowColor,
+                  blurRadius: shadowBlur,
+                  offset: shadowOffset,
+                ),
+              ],
+            ),
+            child: FutureBuilder(
+                future: getTransactions(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Container(
+                      margin: EdgeInsets.only(top: 50),
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color.fromRGBO(26, 68, 237, 1)))
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                snapshot.data[index].transactionName != null
+                                    ? Container(
+                                        margin: EdgeInsets.only(bottom: 40),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 12),
+                                              child: Container(
+                                                height: 42,
+                                                width: 42,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: secondaryColor,
+                                                ),
+                                                child: Icon(
+                                                  CupertinoIcons.checkmark_seal,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 2, left: 8),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 200,
+                                                    child: Text(
+                                                      snapshot.data[index]
+                                                          .transactionName,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                          fontFamily:
+                                                              'MetroBold'),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      softWrap: false,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      snapshot.data[index]
+                                                          .transactionDate,
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 13,
+                                                      ))
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 38),
+                                                child: Text(
+                                                    "- €" +
+                                                        snapshot.data[index]
+                                                            .transactionPayment
+                                                            .toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'MetroBold')))
+                                          ],
+                                        ),
+                                      )
+                                    : Container()
+                              ]);
+                        });
+                  }
+                }),
+          ),
+        ],
       ),
     );
   }
 
+  PrimaryAppbar buildAppbar() => PrimaryAppbar(
+        title: Text(
+          "Transactions",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 28,
+            fontFamily: 'MetroBold',
+          ),
+        ),
+        widgets: <Widget>[
+          AppbarRightIcon(
+            onPressed: () {
+              print("CLICKED");
+              filterTransactionsModal();
+            },
+            icon: CupertinoIcons.list_bullet_indent,
+          )
+        ],
+        backArrow: IconThemeData(
+          color: Colors.black,
+        ),
+      );
+
   void filterTransactionsModal() {
     showModalBottomSheet(
+        backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext buildContext) {
           return Container(
-            height: MediaQuery.of(context).size.height * .45,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                )),
+            height: MediaQuery.of(context).size.height * .25,
             child: Center(
-              child: Text(
-                "Filter Modal.",
-                style: TextStyle(fontSize: 20, fontFamily: 'MetroBold'),
+              child: Container(
+                width: 180,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowColor,
+                      blurRadius: shadowBlur,
+                      offset: shadowOffset,
+                    )
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    "Filter by date.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'MetroBold',
+                    ),
+                  ),
+                ),
               ),
             ),
           );

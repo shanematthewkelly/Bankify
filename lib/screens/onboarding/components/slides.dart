@@ -4,7 +4,6 @@ import 'package:Bankify/screens/onboarding/components/slides_content.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'animated_bar.dart';
 
@@ -88,7 +87,10 @@ class _OnBoardingBodyState extends State<OnBoardingBody>
                       imageUrl: slide.url,
                       fit: BoxFit.cover,
                     ),
-                    SlidesInfo(slide: slides)
+                    SlidesInfo(
+                      slide: slides,
+                      index: _index,
+                    )
                   ],
                 );
               },
@@ -115,7 +117,6 @@ class _OnBoardingBodyState extends State<OnBoardingBody>
                         .values
                         .toList(),
                   ),
-                  // SlidesInfo()
                 ],
               ),
             ),

@@ -7,11 +7,6 @@ class Accounts {
     return Accounts(json["balances"]["current"].truncate());
   }
 
-  @override
-  String toString() {
-    return '${this.currentBalance}';
-  }
-
   int getOverallCurrentBalance() {
     return this.currentBalance;
   }

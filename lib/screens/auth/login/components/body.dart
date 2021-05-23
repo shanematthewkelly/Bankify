@@ -6,6 +6,7 @@ import 'package:Bankify/components/buttons/primary_button.dart';
 import 'package:Bankify/configs/globals.dart';
 import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:Bankify/screens/auth/components/input_fields.dart';
+import 'package:Bankify/screens/auth/login/validators/validators.dart';
 import 'package:Bankify/screens/auth/register/register.dart';
 import 'package:Bankify/screens/plaid/bankConnectScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -116,18 +117,10 @@ class _LoginBodyState extends State<LoginBody> {
     return AuthFields(
       hint: "Email",
       controller: controllerEmail,
-      validator: (fieldValue) {
-        if (fieldValue.isEmpty) {
-          return 'Email is required';
-        }
-        //Check to determine if the input value is less than 4 characters long
-        if (fieldValue.length < 5) {
-          return 'Email must be at least 5 characters';
-        }
-      },
-      onSaved: (fieldValue) {
+      validator: EmailValidator.validate,
+      onSaved: (value) {
         //Setting the state
-        email = fieldValue;
+        email = value;
       },
     );
   }
@@ -135,19 +128,12 @@ class _LoginBodyState extends State<LoginBody> {
   AuthFields passwordField() {
     return AuthFields(
       hint: "Password",
+      hideText: true,
       controller: controllerPassword,
-      validator: (fieldValue) {
-        if (fieldValue.isEmpty) {
-          return 'Password is required';
-        }
-        //Check to determine if the input value is less than 4 characters long
-        if (fieldValue.length < 8) {
-          return 'Password must be at least 8 characters';
-        }
-      },
-      onSaved: (fieldValue) {
+      validator: PasswordValidator.validate,
+      onSaved: (value) {
         //Setting the state
-        password = fieldValue;
+        password = value;
       },
     );
   }
@@ -194,7 +180,7 @@ class _LoginBodyState extends State<LoginBody> {
 
         final String email = sharedPreferences.getString("email");
         final String password = controllerPassword.text;
-        signIn(email, password);
+        await signIn(email, password);
       },
     );
   }

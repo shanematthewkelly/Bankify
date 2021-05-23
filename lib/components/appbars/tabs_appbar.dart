@@ -15,16 +15,18 @@ class TabsAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 12),
-      child: AppBar(
-        title: title,
-        leading: profile,
-        leadingWidth: screenWidthData(50),
-        backgroundColor: backgroundColor,
-        elevation: 0,
-        actions: widgets,
-        bottom: bottomTabs,
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(top: 12),
+        child: AppBar(
+          title: title,
+          leading: profile,
+          leadingWidth: screenWidthData(50),
+          backgroundColor: backgroundColor,
+          elevation: 0,
+          actions: widgets,
+          bottom: bottomTabs,
+        ),
       ),
     );
   }

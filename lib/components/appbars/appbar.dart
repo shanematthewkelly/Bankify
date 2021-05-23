@@ -8,9 +8,15 @@ class PrimaryAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Text title;
   final Padding profile;
   final bool centered;
+  final IconThemeData backArrow;
 
   const PrimaryAppbar(
-      {Key key, this.widgets, this.title, this.profile, this.centered})
+      {Key key,
+      this.widgets,
+      this.title,
+      this.profile,
+      this.centered,
+      this.backArrow})
       : super(key: key);
 
   @override
@@ -18,6 +24,7 @@ class PrimaryAppbar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: EdgeInsets.only(top: 12),
       child: AppBar(
+        iconTheme: backArrow,
         centerTitle: centered,
         title: title,
         leading: profile,
@@ -30,5 +37,5 @@ class PrimaryAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => new Size.fromHeight(screenHeightData(60));
+  Size get preferredSize => new Size.fromHeight(screenHeightData(75));
 }

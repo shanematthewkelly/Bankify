@@ -1,5 +1,6 @@
 import 'package:Bankify/configs/screen_sizing.dart';
-import 'package:Bankify/screens/accounts/accountsDetail.dart';
+import 'package:Bankify/screens/accounts/components/accountsDetail.dart';
+import 'package:Bankify/screens/accounts/body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,7 @@ class Accounts extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AccountsDetail()),
+                                                AccountDetailBody()),
                                       );
                                     },
                                     child: Container(

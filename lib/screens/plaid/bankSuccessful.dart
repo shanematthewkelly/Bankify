@@ -1,3 +1,5 @@
+import 'package:Bankify/components/buttons/primary_button.dart';
+import 'package:Bankify/configs/screen_sizing.dart';
 import 'package:Bankify/screens/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,7 @@ class _BankSuccessfulState extends State<BankSuccessful> {
                   child: Text(
                     'Account Linked Successfully.',
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: screenWidthData(22),
                         fontFamily: 'MetroBold',
                         color: Colors.black),
                     textAlign: TextAlign.center,
@@ -41,34 +43,16 @@ class _BankSuccessfulState extends State<BankSuccessful> {
           ),
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushAndRemoveUntil(
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidthData(20),
+          vertical: screenHeightData(15),
+        ),
+        child: PrimaryButton(
+          buttonText: "Continue",
+          onPress: () => Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (BuildContext context) => Home()),
-              (Route<dynamic> route) => false);
-        },
-        child: Container(
-          margin: EdgeInsets.all(15),
-          height: 50,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(26, 68, 237, 1),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                  color: Color.fromRGBO(26, 68, 237, .3),
-                  blurRadius: 25.0,
-                  offset: Offset(0, 7))
-            ],
-          ),
-          child: Center(
-            child: Text(
-              "C O N T I N U E",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+              (Route<dynamic> route) => false),
         ),
       ),
     );
