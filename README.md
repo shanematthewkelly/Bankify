@@ -3,9 +3,7 @@
 <h2>Installation</h2>
 
 <p>1. Clone this repository and open the project in Android Studio, XCode or VS Code:</p>
-
 <p>2. Install the required dependencies by running <code>flutter pub get</code> </p>
-
 <p>3. Run the application on an emulator or physical device by running <code>flutter run</code> </p>
 
 <p>Please refer to <a href="https://flutter.dev/docs/get-started/install">Flutter's Documentation</a> for help in installing Flutter applications.</p>
@@ -34,16 +32,6 @@
 
 &nbsp;
 
-<h2>Known Issues [Bugs]</h2>
-
-<ul>
-	<li>App state lost persistently with bank auth token (fix coming).</li>
-	<li>Authentication and onBoarding resets when app closes.</li>
-		<li>No indicators for 'loading/retrieving ' data from API as of yet.</li>
-</ul>
-
-&nbsp;
-
 <h2>Future Developments</h2>
 
 <p>The application will be implementing further features and authentication methods in the near future, see below for the full list:</p>
@@ -63,38 +51,33 @@
 
 &nbsp;
 
+<h2>Known Issues [Bugs]</h2>
+
+<ul>
+	<li>App state lost persistently with bank auth token (fix coming).</li>
+	<li>Authentication and onBoarding resets when app closes.</li>
+	<li>No indicators for 'loading/retrieving ' data from API as of yet.</li>
+</ul>
+
+&nbsp;
+
 <h2>A Closer Look</h2>
 
 <img  width="100%" src="https://i.imgur.com/yZkHw48.png">
-
 &nbsp;
-
 <img  width="100%"  src="https://i.imgur.com/doDtLlJ.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/edVAoBQ.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/YdGhaN0.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/LxHYadt.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/57DheLj.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/A9KENQg.png">
-
 &nbsp;
-
 <img  width="100%" src="https://i.imgur.com/lZptlcl.png">
-
 &nbsp;
 
 <h2>Developer Details & Contributors</h2>
