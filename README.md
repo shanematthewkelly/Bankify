@@ -1,6 +1,8 @@
 <img  width="100%"  src="https://i.imgur.com/dmaNP8x.png">
 
-<h2>Installation</h2>
+&nbsp;
+
+<h1>Installation</h1>
 
 <p>1. Clone this repository and open the project in Android Studio, XCode or VS Code:</p>
 <p>2. Install the required dependencies by running <code>flutter pub get</code> </p>
@@ -10,7 +12,7 @@
 
 &nbsp;
 
-<h2>Requirements</h2>
+<h1>Requirements</h1>
 <p><b>Devices:</b></p>
 <ul>
 	<li>Android Physical Device</li>
@@ -26,13 +28,13 @@
 
 &nbsp;
 
-<h2>About</h2>
+<h1>About</h1>
 
 <p>Bankify is a money management platform which enables users to connect their pre-existing bank accounts to the application in order to gather rich financial data and aid in improving money expenditure. Bankify strives to integrate dynamic solutions for sections of the platform to suit user needs within the area of online banking. Bankify uses an ‘under one umbrella’ architectural scheme for managing a multitude of accounts under one platform, providing the user with various techniques to view and manage their finances.</p>
 
 &nbsp;
 
-<h2>Future Developments</h2>
+<h1>Future Developments</h1>
 
 <p>The application will be implementing further features and authentication methods in the near future, see below for the full list:</p>
 <ul>
@@ -51,7 +53,7 @@
 
 &nbsp;
 
-<h2>Known Issues [Bugs]</h2>
+<h1>Known Issues [Bugs]</h1>
 
 <ul>
 	<li>App state lost persistently with bank auth token (fix coming).</li>
@@ -61,7 +63,7 @@
 
 &nbsp;
 
-<h2>A Closer Look</h2>
+<h1>A Closer Look</h1>
 
 <img  width="100%" src="https://i.imgur.com/yZkHw48.png">
 &nbsp;
@@ -80,7 +82,7 @@
 <img  width="100%" src="https://i.imgur.com/lZptlcl.png">
 &nbsp;
 
-<h2>Developer Details & Contributors</h2>
+<h1>Developer Details & Contributors</h1>
 <p><b>LinkedIn:</b></p>
 <ul>
 	<li><a href="https://www.linkedin.com/in/shanematthewkelly/"> Shane Kelly - LinkedIn</a></li>
