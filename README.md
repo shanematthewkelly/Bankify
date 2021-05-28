@@ -61,16 +61,6 @@
 	<li>State Management migration to RxDart or Provider</li>
 </ul>
 
-<h2>Developer Details & Contributors</h2>
-<p><b>LinkedIn:</b></p>
-<ul>
-	<li><a href="https://www.linkedin.com/in/shanematthewkelly/"> Shane Kelly - LinkedIn</a></li>
-</ul>
-<p><b>Email:</b></p>
-<ul>
-	<li>shane.kelly2408@gmail.com</li>
-</ul>
-
 &nbsp;
 
 <h2>A Closer Look</h2>
@@ -104,3 +94,15 @@
 &nbsp;
 
 <img  width="100%" src="https://i.imgur.com/lZptlcl.png">
+
+&nbsp;
+
+<h2>Developer Details & Contributors</h2>
+<p><b>LinkedIn:</b></p>
+<ul>
+	<li><a href="https://www.linkedin.com/in/shanematthewkelly/"> Shane Kelly - LinkedIn</a></li>
+</ul>
+<p><b>Email:</b></p>
+<ul>
+	<li>shane.kelly2408@gmail.com</li>
+</ul>
