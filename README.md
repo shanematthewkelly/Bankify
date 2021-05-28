@@ -59,6 +59,8 @@
 	<li>App state lost persistently with bank auth token (fix coming).</li>
 	<li>Authentication and onBoarding resets when app closes.</li>
 	<li>No indicators for 'loading/retrieving ' data from API as of yet.</li>
+	<li>'Incorrect Password' bottom modal sheet not triggering</li>
+	<li> Overlay issues with GestureDetectors for Appbar Items</li>
 </ul>
 
 &nbsp;
