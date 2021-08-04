@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ScreenSizing {
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth, screenHeight, defaultSize;
-  static Orientation orientation;
+  static MediaQueryData _mediaQueryData = _mediaQueryData;
+  static double screenWidth = screenWidth;
+  static double screenHeight = screenHeight;
+  static Orientation orientation = orientation;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
